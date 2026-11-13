@@ -1,0 +1,2861 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEO Empire: Canlı Strateji</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600&display=swap');
+
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #131b2e;
+            --text-color: #f1f5f9;
+            --accent-neon: #06b6d4;
+            --border-neon: rgba(6, 182, 212, 0.3);
+            --danger-color: #f43f5e;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            transition: background 0.5s ease;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body.danger-mode {
+            animation: redPulse 1s infinite alternate;
+        }
+        @keyframes redPulse {
+            0% { background-color: #0b0f19; box-shadow: inset 0 0 40px rgba(244, 63, 94, 0.1); }
+            100% { background-color: #2a080c; box-shadow: inset 0 0 100px rgba(244, 63, 94, 0.4); }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 780px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-neon);
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 25px var(--border-neon);
+            padding: 35px;
+            box-sizing: border-box;
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            color: var(--accent-neon);
+            font-size: 26px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            background-color: #090d16;
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .stats-bar span {
+            color: var(--accent-neon);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            background-color: #1e293b;
+            color: var(--text-color);
+            border: 1px solid #334155;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: #2b3a55;
+            border-color: var(--accent-neon);
+            transform: translateX(4px);
+        }
+
+        .sector-btn {
+            background: linear-gradient(135deg, var(--accent-neon), #0891b2);
+            color: #0b0f19;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            border: none;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .log-box {
+            background-color: #090d16;
+            padding: 14px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-neon);
+            font-size: 13px;
+            line-height: 1.5;
+            color: #cbd5e1;
+        }
+
+        .leaderboard {
+            background-color: #090d16;
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .leaderboard h3 { margin-top: 0; color: var(--accent-neon); font-family: 'Orbitron', sans-serif; font-size: 16px; text-align: center; }
+        .lb-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1e293b; font-size: 14px; }
+
+        .hidden { display: none !important; }
+        .room-panel { background:#090d16; border:1px solid rgba(6,182,212,.25); border-radius:12px; padding:16px; margin:14px 0; }
+        .room-code { font-family:'Orbitron',sans-serif; letter-spacing:4px; color:var(--accent-neon); font-size:24px; text-align:center; padding:12px; }
+        .room-input { width:100%; box-sizing:border-box; background:#090d16; color:#f1f5f9; border:1px solid #334155; border-radius:9px; padding:14px; font-size:16px; text-align:center; margin:8px 0 12px; }
+        .room-player { padding:8px 4px; border-bottom:1px solid #1e293b; font-size:14px; }
+        .room-note { color:#94a3b8; font-size:12px; line-height:1.5; text-align:center; }
+        .team-winner { background:#090d16; border:1px solid var(--accent-neon); border-radius:10px; padding:14px; margin-bottom:16px; color:#e2e8f0; line-height:1.55; }
+        .question-timer { text-align:center; font-family:'Orbitron',sans-serif; font-size:18px; font-weight:700; color:var(--accent-neon); background:#090d16; border:1px solid var(--border-neon); border-radius:9px; padding:10px; margin:0 0 16px; }
+
+        .tab-btn {
+            background: transparent;
+            border: 1px solid var(--accent-neon);
+            color: var(--accent-neon);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            flex: 1;
+            transition: 0.2s;
+        }
+
+        .sound-toggle {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: #1e293b;
+            border: 1px solid var(--accent-neon);
+            color: var(--accent-neon);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        #moneyRainContainer {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 99;
+            display: none;
+        }
+        .money-bill {
+            position: absolute;
+            font-size: 24px;
+            animation: fallMoney 3s linear infinite;
+        }
+        @keyframes fallMoney {
+            0% { transform: translateY(-30px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(360deg); opacity: 0.2; }
+        }
+    </style>
+</head>
+<body id="pageBody" onclick="audioEngine.init()">
+
+<button class="sound-toggle" id="soundBtn" onclick="audioEngine.toggle(event)">Ses: Kapalı</button>
+<div id="moneyRainContainer"></div>
+
+<div class="container" id="mainContainer">
+    <h1>CEO Empire</h1>
+    <div class="subtitle">Büyüme & İflas Savaşları: Stratejik Karar Simülasyonu</div>
+    <div id="firebaseStatus" role="status" aria-live="polite" style="text-align:center;font-size:12px;color:#fbbf24;margin:-12px 0 16px;">Firebase bağlantısı hazırlanıyor…</div>
+
+    <div id="statsBar" class="stats-bar hidden">
+        <div>Mod: <span id="sMod" style="color:#f59e0b">Bireysel</span></div>
+        <div>Aşama: <span id="sAsama">1</span>/10</div>
+        <div>Sermaye: $<span id="sSermaye">100</span>M</div>
+        <div>İtibar: <span id="sItibar">50</span></div>
+        <div>Risk: <span id="sRisk">0</span>/5</div>
+    </div>
+
+    <div id="screenLogin">
+        <p style="text-align: center; margin-bottom: 10px; font-weight: 600;">Şirket veya Oyuncu Adını Yazın:</p>
+        <input type="text" id="inputOyuncuAdi" class="btn" style="background:#090d16; cursor:text; text-align:center; font-size:16px; font-weight:bold; margin-bottom:20px;" placeholder="" autocomplete="off">
+
+        <p style="text-align: center; margin-bottom: 12px; font-weight: 600;">Oyun Modunu Seçin:</p>
+        <div style="display: flex; gap: 12px; margin-bottom: 25px;">
+            <button class="tab-btn" id="btnTek" onclick="modSec('tek')" style="background:var(--accent-neon); color:#0b0f19;">👤 Bireysel Mod</button>
+            <button class="tab-btn" id="btnTakim" onclick="modSec('takim')">⚔️ Ortak Meydan Okuma</button>
+        </div>
+
+        <button class="btn sector-btn" style="text-align:center; font-size:16px; padding:18px;" onclick="girisYapDevamEt()">Oyuna Başla ➡️</button>
+    </div>
+
+    <div id="screenRoom" class="hidden">
+        <h2 style="text-align:center;color:var(--accent-neon);font-family:'Orbitron',sans-serif;font-size:18px;">ÇOK OYUNCULU ODA</h2>
+        <div id="roomActions">
+            <p class="room-note">Odayı bir kişi oluşturur. Diğer oyuncular oda koduyla katılır.</p>
+            <button class="btn sector-btn" onclick="window.createGameRoom()">➕ Yeni Oda Oluştur</button>
+            <div class="room-panel">
+                <label for="roomCodeInput" style="display:block;text-align:center;font-size:13px;">Oda kodun varsa gir:</label>
+                <input id="roomCodeInput" class="room-input" maxlength="6" placeholder="6 HANELİ KOD" autocomplete="off">
+                <button class="btn" style="text-align:center;" onclick="window.joinGameRoom()">Odaya Katıl</button>
+            </div>
+        </div>
+        <div id="roomLobby" class="room-panel hidden">
+            <p style="text-align:center;margin:0 0 4px;">Oda kodu</p>
+            <div id="roomCodeDisplay" class="room-code">------</div>
+            <p id="roomModeDisplay" class="room-note"></p>
+            <p style="font-weight:600;margin-bottom:6px;">Oyuncular</p>
+            <div id="roomPlayersList"></div>
+            <div id="hostSectorPicker" class="hidden" style="margin-top:16px;">
+                <p style="font-weight:600;text-align:center;">Başlangıç sektörünü seç:</p>
+                <select id="roomSectorSelect" class="room-input">
+                    <option value="kozmetik">🌸 Kozmetik Sektörü</option>
+                    <option value="otomotiv">🚗 Otomotiv & Elektrikli Araç</option>
+                    <option value="yazilim">💻 Yazılım & Teknoloji</option>
+                    <option value="gida">🥗 Organik Gıda & Tarım</option>
+                    <option value="saglik">🏥 Sağlık Sektörü</option>
+                </select>
+                <button class="btn sector-btn" onclick="window.startRoomGame()">Oyunu Başlat ➡️</button>
+            </div>
+            <p id="roomWaitingText" class="room-note">Oda sahibi oyunu başlattığında oyun otomatik açılacak.</p>
+        </div>
+        <button class="btn" style="text-align:center;margin-top:12px;" onclick="location.reload()">Odadan Çık</button>
+    </div>
+
+    <div id="screenSector" class="hidden">
+        <p id="welcomeUser" style="text-align: center; color: var(--accent-neon); font-weight: 600; margin-bottom: 15px;"></p>
+        <p style="text-align: center; margin-bottom: 20px; font-weight: 600;">Faaliyet göstermek istediğiniz sektörü seçin:</p>
+        <button class="btn sector-btn" style="--accent-neon: #ec4899;" onclick="oyunuBaslat('kozmetik')">🌸 Kozmetik Sektörü</button>
+        <button class="btn sector-btn" style="--accent-neon: #f59e0b;" onclick="oyunuBaslat('otomotiv')">🚗 Otomotiv & Elektrikli Araç (EV)</button>
+        <button class="btn sector-btn" style="--accent-neon: #06b6d4;" onclick="oyunuBaslat('yazilim')">💻 Yazılım & Teknoloji</button>
+        <button class="btn sector-btn" style="--accent-neon: #10b981;" onclick="oyunuBaslat('gida')">🥗 Organik Gıda & Tarım</button>
+        <button class="btn sector-btn" style="--accent-neon: #14b8a6;" onclick="oyunuBaslat('saglik')">🏥 Sağlık Sektörü</button>
+    </div>
+
+    <div id="screenGame" class="hidden">
+        <div id="logBox" class="log-box hidden"></div>
+        <p id="modeIndicator" style="font-size: 13px; color: var(--accent-neon); margin-bottom: 6px; font-weight: 600;"></p>
+        <div id="questionTimer" class="question-timer">Kalan süre: 30 sn</div>
+        <p id="qText" style="font-size: 16px; font-weight: 600; margin-bottom: 20px; color: #e2e8f0;"></p>
+        <div id="cBox"></div>
+    </div>
+
+    <div id="screenLB" class="hidden">
+        <div id="teamWinnerBox" class="team-winner hidden" aria-live="polite"></div>
+        <div class="leaderboard">
+            <h3>📊 Tur Sonu Durum Tablosu</h3>
+            <div id="lbList">Yükleniyor...</div>
+        </div>
+        <button class="btn sector-btn" id="nextTurnBtn" onclick="sonrakiAsamayaGec()">Sıradaki Tura Geç ➡️</button>
+    </div>
+
+    <div id="screenEnd" class="hidden">
+        <h2 id="eTitle" style="font-family:'Orbitron',sans-serif; font-size: 24px; margin-bottom: 15px; text-align: center;">OYUN BİTTİ</h2>
+        <p id="eMsg" style="font-size: 15px; margin: 20px 0; color:#cbd5e1; text-align: center;"></p>
+        
+        <div id="finalLbContainer" class="hidden leaderboard" style="text-align: left; margin-bottom: 20px;">
+            <h3>🏆 Sonuç Sıralaması</h3>
+            <div id="finalLbList"></div>
+        </div>
+
+        <button class="btn sector-btn" style="text-align:center;" onclick="location.reload()">Yeniden Başla</button>
+    </div>
+</div>
+
+<script>
+    const audioEngine = {
+        ctx: null,
+        active: false,
+        init() {
+            if (!this.ctx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                this.ctx = new AudioContext();
+            }
+            if (this.ctx.state === 'suspended') {
+                this.ctx.resume();
+            }
+        },
+        toggle(e) {
+            e.stopPropagation();
+            this.init();
+            this.active = !this.active;
+            let btn = document.getElementById('soundBtn');
+            if (this.active) {
+                btn.innerText = "Ses: Açık";
+                btn.style.background = "var(--accent-neon)";
+                btn.style.color = "#0b0f19";
+                this.playBeep(523.25, 0.1);
+            } else {
+                btn.innerText = "Ses: Kapalı";
+                btn.style.background = "#1e293b";
+                btn.style.color = "var(--accent-neon)";
+            }
+        },
+        playBeep(freq, duration) {
+            if (!this.active || !this.ctx) return;
+            try {
+                let osc = this.ctx.createOscillator();
+                let gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + duration);
+            } catch(err) {}
+        }
+    };
+
+    let secilenMod = 'tek';
+    let oyuncuAdi = "";
+    let gameState = { sektor: null, asama: 0, sermaye: 100, itibar: 50, risk: 0 };
+    const QUESTION_TIME_SECONDS = 30;
+    let questionTimerInterval = null;
+    let leaderboardAdvanceTimeout = null;
+    let leaderboardCountdownInterval = null;
+    let questionSecondsLeft = QUESTION_TIME_SECONDS;
+
+    function stopQuestionTimer() {
+        if (questionTimerInterval) clearInterval(questionTimerInterval);
+        questionTimerInterval = null;
+    }
+
+    function stopLeaderboardAdvance() {
+        if (leaderboardAdvanceTimeout) clearTimeout(leaderboardAdvanceTimeout);
+        if (leaderboardCountdownInterval) clearInterval(leaderboardCountdownInterval);
+        leaderboardAdvanceTimeout = null;
+        leaderboardCountdownInterval = null;
+    }
+
+    function startQuestionTimer() {
+        stopQuestionTimer();
+        questionSecondsLeft = QUESTION_TIME_SECONDS;
+        const timerEl = document.getElementById('questionTimer');
+        if (timerEl) timerEl.textContent = `Kalan süre: ${questionSecondsLeft} sn`;
+        questionTimerInterval = setInterval(() => {
+            questionSecondsLeft = Math.max(0, questionSecondsLeft - 1);
+            if (timerEl) timerEl.textContent = `Kalan süre: ${questionSecondsLeft} sn`;
+            if (questionSecondsLeft <= 0) {
+                stopQuestionTimer();
+                if (secilenMod === 'tek' && !window.answerLocked) {
+                    window.answerLocked = true;
+                    document.getElementById('modeIndicator').textContent = 'Süre doldu. Bu tur için seçim yapılmadı.';
+                    document.querySelectorAll('#cBox button').forEach(button => button.disabled = true);
+                    oyuncuKaydiniGuncelle();
+                    if (window.saveMultiplayerScore) window.saveMultiplayerScore();
+                    setTimeout(() => liderlikTablosunuGoster(), 500);
+                } else if (secilenMod === 'takim' && !window.answerLocked) {
+                    window.answerLocked = true;
+                    document.querySelectorAll('#cBox button').forEach(button => button.disabled = true);
+                    document.getElementById('modeIndicator').textContent = 'Süre doldu. Oda sahibinin oylamayı sonuçlandırması bekleniyor…';
+                }
+            }
+        }, 1000);
+    }
+
+    function modSec(m) {
+        secilenMod = m;
+        if(m === 'tek') {
+            document.getElementById('btnTek').style.background = 'var(--accent-neon)';
+            document.getElementById('btnTek').style.color = '#0b0f19';
+            document.getElementById('btnTakim').style.background = 'transparent';
+            document.getElementById('btnTakim').style.color = 'var(--accent-neon)';
+        } else {
+            document.getElementById('btnTakim').style.background = 'var(--accent-neon)';
+            document.getElementById('btnTakim').style.color = '#0b0f19';
+            document.getElementById('btnTek').style.background = 'transparent';
+            document.getElementById('btnTek').style.color = 'var(--accent-neon)';
+        }
+    }
+
+    function girisYapDevamEt() {
+        audioEngine.playBeep(440, 0.15);
+        let inputIsim = document.getElementById('inputOyuncuAdi').value.trim();
+        if(!inputIsim) {
+            alert("Lütfen oyuna girmek için adınızı veya rumuzunuzu yazın!");
+            return;
+        }
+        oyuncuAdi = inputIsim;
+
+        document.getElementById('welcomeUser').innerText = `Hoş geldin, ${oyuncuAdi}!`;
+        if (!window.firebaseReady || !window.openRoomScreen) {
+            alert("Firebase henüz hazır değil. Sayfayı HTTPS üzerinden açıp tekrar deneyin.");
+            return;
+        }
+        window.openRoomScreen();
+    }
+
+    function oyunuBaslat(sektorKey) {
+        audioEngine.playBeep(659.25, 0.2);
+        let renk = temaRenkleri[sektorKey];
+        document.documentElement.style.setProperty('--accent-neon', renk.primary);
+        document.documentElement.style.setProperty('--border-neon', renk.border);
+
+        document.getElementById('screenSector').classList.add('hidden');
+        document.getElementById('screenGame').classList.remove('hidden');
+        document.getElementById('statsBar').classList.remove('hidden');
+
+        gameState.sektor = sektorKey;
+        gameState.asama = 0;
+        gameState.sermaye = 100;
+        gameState.itibar = 50;
+        gameState.risk = 0;
+
+        soruYukle();
+    }
+
+    const temaRenkleri = {
+        kozmetik: { primary: '#ec4899', border: 'rgba(236, 72, 153, 0.3)' },
+        otomotiv: { primary: '#f59e0b', border: 'rgba(245, 158, 11, 0.3)' },
+        yazilim: { primary: '#06b6d4', border: 'rgba(6, 182, 212, 0.3)' },
+        gida: { primary: '#10b981', border: 'rgba(16, 185, 129, 0.3)' },
+        saglik: { primary: '#14b8a6', border: 'rgba(20, 184, 166, 0.3)' }
+    };
+
+    const veritabani = {
+    "kozmetik": [
+        {
+            "soru": "Kozmetik markanın ilk ürün serisini piyasaya sürüyorsun. Stratejin ne olacak?",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Tamamen doğal ve vegan içerikli butik seri kurmak",
+                    "e": "Kararınız uygulandı. Sermaye -20, itibar +30, risk 0.",
+                    "s": -20,
+                    "i": 30,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Yüksek kâr marjlı lüks parfümeri ve renkli kozmetik üretmek",
+                    "e": "Kararınız uygulandı. Sermaye +30, itibar +10, risk +1.",
+                    "s": 30,
+                    "i": 10,
+                    "r": 1
+                },
+                {
+                    "h": "C",
+                    "m": "Genç kitleye hitap eden uygun fiyatlı, trend makyaj ürünleri",
+                    "e": "Kararınız uygulandı. Sermaye +15, itibar +5, risk +1.",
+                    "s": 15,
+                    "i": 5,
+                    "r": 1
+                },
+                {
+                    "h": "D",
+                    "m": "Dermatolojik olarak test edilmiş hassas cilt bakım serisi",
+                    "e": "Kararınız uygulandı. Sermaye -15, itibar +25, risk 0.",
+                    "s": -15,
+                    "i": 25,
+                    "r": 0
+                }
+            ]
+        },
+        {
+            "soru": "Ünlü bir sosyal medya fenomeni, ürünlerinde alerjik reaksiyon yaşadığını iddia ederek video yayınladı.",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Hemen ürünü piyasadan toplatıp bağımsız laboratuvar testi iste",
+                    "e": "Kararınız uygulandı. Sermaye -25, itibar +35, risk 0.",
+                    "s": -25,
+                    "i": 35,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Fenomeni mahkemeye verip ürünlerin arkasında dur",
+                    "e": "Kararınız uygulandı. Sermaye -15, itibar -25, risk +3.",
+                    "s": -15,
+                    "i": -25,
+                    "r": 3
+                },
+                {
+                    "h": "C",
+                    "m": "Ürünün içeriğini hafifçe değiştirip sessizce raflarda güncelle",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar -10, risk +1.",
+                    "s": -10,
+                    "i": -10,
+                    "r": 1
+                },
+                {
+                    "h": "D",
+                    "m": "Fenomenle gizli bir reklam bütçesi karşılığında anlaşarak videoyu kaldırt",
+                    "e": "Kararınız uygulandı. Sermaye -20, itibar -15, risk +2.",
+                    "s": -20,
+                    "i": -15,
+                    "r": 2
+                }
+            ]
+        },
+        {
+            "soru": "Sevgililer Günü kampanyası için devasa bir reklam bütçesi ayırma vakti geldi:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "A-listesi küresel bir modelle prestijli kampanya yürüt",
+                    "e": "Kararınız uygulandı. Sermaye -35, itibar +35, risk +1.",
+                    "s": -35,
+                    "i": 35,
+                    "r": 1
+                },
+                {
+                    "h": "B",
+                    "m": "TikTok ve Instagram'da binlerce mikro-influencer ile viral kampanya yap",
+                    "e": "Kararınız uygulandı. Sermaye -20, itibar +25, risk +1.",
+                    "s": -20,
+                    "i": 25,
+                    "r": 1
+                },
+                {
+                    "h": "C",
+                    "m": "Bütçeyi minimumda tutup doğrudan e-ticaret indirimlerine yatır",
+                    "e": "Kararınız uygulandı. Sermaye +10, itibar +5, risk 0.",
+                    "s": 10,
+                    "i": 5,
+                    "r": 0
+                },
+                {
+                    "h": "D",
+                    "m": "Geleneksel TV ve billboard reklamlarına ağırlık ver",
+                    "e": "Kararınız uygulandı. Sermaye -30, itibar +10, risk +2.",
+                    "s": -30,
+                    "i": 10,
+                    "r": 2
+                }
+            ]
+        },
+        {
+            "soru": "Tedarik zincirindeki hammadde krizinden dolayı ana krem formülünde kullanılan özel bitki özü tükendi.",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Yerel tarım çiftlikleriyle sözleşme imzalayıp organik hammaddeye geç",
+                    "e": "Kararınız uygulandı. Sermaye -20, itibar +30, risk 0.",
+                    "s": -20,
+                    "i": 30,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Aynı etkiyi veren daha ucuz sentetik bileşenler kullan",
+                    "e": "Kararınız uygulandı. Sermaye +20, itibar -20, risk +2.",
+                    "s": 20,
+                    "i": -20,
+                    "r": 2
+                },
+                {
+                    "h": "C",
+                    "m": "Üretimi yavaşlatıp ürün fiyatını artırarak arzı dengele",
+                    "e": "Kararınız uygulandı. Sermaye +15, itibar -5, risk +1.",
+                    "s": 15,
+                    "i": -5,
+                    "r": 1
+                },
+                {
+                    "h": "D",
+                    "m": "Uzak doğudan riskli ama ucuz stok tedarik et",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar -15, risk +3.",
+                    "s": -10,
+                    "i": -15,
+                    "r": 3
+                }
+            ]
+        },
+        {
+            "soru": "Lüks bir kozmetik holdingi, markanı bünyesine katmak için devasa bir satın alma teklifi sundu.",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Teklifi kabul edip milyarlarca dolar nakitle şirketi devret",
+                    "e": "Kararınız uygulandı. Sermaye +80, itibar -20, risk 0.",
+                    "s": 80,
+                    "i": -20,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Bağımsız kalmak istiyoruz diyerek teklifi reddet",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar +30, risk +1.",
+                    "s": -10,
+                    "i": 30,
+                    "r": 1
+                },
+                {
+                    "h": "C",
+                    "m": "Şirketin sadece %49 hissesini satıp kontrolü elinde tut",
+                    "e": "Kararınız uygulandı. Sermaye +40, itibar +10, risk +1.",
+                    "s": 40,
+                    "i": 10,
+                    "r": 1
+                },
+                {
+                    "h": "D",
+                    "m": "Teklifi rakiplerine karşı koz olarak kullanıp açık artırma başlat",
+                    "e": "Kararınız uygulandı. Sermaye +50, itibar -5, risk +2.",
+                    "s": 50,
+                    "i": -5,
+                    "r": 2
+                }
+            ]
+        },
+        {
+            "soru": "Ambalaj tasarımında plastik kullanımını azaltma konusunda tüketici baskısı artıyor.",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Tamamen cam ve geri dönüştürülebilir kağıt ambalaj sistemine geç",
+                    "e": "Kararınız uygulandı. Sermaye -25, itibar +40, risk 0.",
+                    "s": -25,
+                    "i": 40,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Müşterilerin şişeleri mağazaya getirip doldurabileceği 'Refill' istasyonları kur",
+                    "e": "Kararınız uygulandı. Sermaye -15, itibar +30, risk 0.",
+                    "s": -15,
+                    "i": 30,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "Maliyeti artırmamak için ince plastik ambalajla devam et",
+                    "e": "Kararınız uygulandı. Sermaye +15, itibar -30, risk +3.",
+                    "s": 15,
+                    "i": -30,
+                    "r": 3
+                },
+                {
+                    "h": "D",
+                    "m": "Sadece 'çevreci' ibaresi ekleyip mevcut ambalajı koru",
+                    "e": "Kararınız uygulandı. Sermaye -5, itibar -15, risk +2.",
+                    "s": -5,
+                    "i": -15,
+                    "r": 2
+                }
+            ]
+        },
+        {
+            "soru": "Yapay zeka destekli 'Kişiye Özel Cilt Analizi ve Üretim' kiosklarını mağazalara yerleştirme fikri doğdu.",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Tüm amiral gemisi mağazalara yapay zeka analiz cihazları kur",
+                    "e": "Kararınız uygulandı. Sermaye -30, itibar +35, risk +1.",
+                    "s": -30,
+                    "i": 35,
+                    "r": 1
+                },
+                {
+                    "h": "B",
+                    "m": "Sadece mobil uygulama üzerinden çalışan dijital cilt testi sun",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar +20, risk 0.",
+                    "s": -10,
+                    "i": 20,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "Yatırımı riskli bulup klasik mağazacılığa odaklan",
+                    "e": "Kararınız uygulandı. Sermaye +15, itibar -10, risk 0.",
+                    "s": 15,
+                    "i": -10,
+                    "r": 0
+                },
+                {
+                    "h": "D",
+                    "m": "Ucuz ve test aşamasındaki yazılımlarla hızlıca piyasaya sür",
+                    "e": "Kararınız uygulandı. Sermaye +10, itibar -20, risk +3.",
+                    "s": 10,
+                    "i": -20,
+                    "r": 3
+                }
+            ]
+        },
+        {
+            "soru": "Global bir perakende devi, ürünlerini kendi zincir marketlerinde özel markalı (private label) satmak istiyor.",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Yüksek hacimli bu teklifi kabul edip seri üretime geç",
+                    "e": "Kararınız uygulandı. Sermaye +50, itibar -15, risk +1.",
+                    "s": 50,
+                    "i": -15,
+                    "r": 1
+                },
+                {
+                    "h": "B",
+                    "m": "Prestij kaybına yol açar diyerek teklifi kesinlikle reddet",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar +25, risk 0.",
+                    "s": -10,
+                    "i": 25,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "Sadece belirli alt segment ürünler için anlaşma imzala",
+                    "e": "Kararınız uygulandı. Sermaye +25, itibar +5, risk +1.",
+                    "s": 25,
+                    "i": 5,
+                    "r": 1
+                },
+                {
+                    "h": "D",
+                    "m": "Kendi mağaza zincirini kurarak aracıları tamamen ortadan kaldır",
+                    "e": "Kararınız uygulandı. Sermaye -35, itibar +30, risk +2.",
+                    "s": -35,
+                    "i": 30,
+                    "r": 2
+                }
+            ]
+        },
+        {
+            "soru": "Hayvanlar üzerinde test yapmama (Cruelty-Free) sertifikası alma süreci gündemde:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Tüm tedarik zincirini denetletip uluslararası Cruelty-Free sertifikası al",
+                    "e": "Kararınız uygulandı. Sermaye -20, itibar +40, risk 0.",
+                    "s": -20,
+                    "i": 40,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Sertifika masrafından kaçınıp sadece etik söylemler kullan",
+                    "e": "Kararınız uygulandı. Sermaye +10, itibar -25, risk +3.",
+                    "s": 10,
+                    "i": -25,
+                    "r": 3
+                },
+                {
+                    "h": "C",
+                    "m": "Yalnızca yeni ürün serileri için sertifikasyon sürecini başlat",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar +15, risk +1.",
+                    "s": -10,
+                    "i": 15,
+                    "r": 1
+                },
+                {
+                    "h": "D",
+                    "m": "Pazarlama stratejisi olarak bu konuyu hiç öne çıkarma",
+                    "e": "Kararınız uygulandı. Sermaye +5, itibar -5, risk 0.",
+                    "s": 5,
+                    "i": -5,
+                    "r": 0
+                }
+            ]
+        },
+        {
+            "soru": "Final Virajı – Küresel Kozmetik İmparatorluğu:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Dünyanın dört bir yanında prestijli butikler açarak küresel mağazalaşma devrimi yapmak",
+                    "e": "Kararınız uygulandı. Sermaye +45, itibar +50, risk 0.",
+                    "s": 45,
+                    "i": 50,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Borçları sıfırlayıp kârlı ve huzurlu bir kaleye çekilerek risksiz zirvede kalmak",
+                    "e": "Kararınız uygulandı. Sermaye +60, itibar +30, risk 0.",
+                    "s": 60,
+                    "i": 30,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "Şirket yönetimini profesyonel yatırım fonlarına devredip pasif ortaklığa geçmek",
+                    "e": "Kararınız uygulandı. Sermaye +80, itibar +10, risk 0.",
+                    "s": 80,
+                    "i": 10,
+                    "r": 0
+                },
+                {
+                    "h": "D",
+                    "m": "Piyasada kalan rakip butik markaları satın alarak tam bir monopol kurmak",
+                    "e": "Kararınız uygulandı. Sermaye +70, itibar +20, risk +1.",
+                    "s": 70,
+                    "i": 20,
+                    "r": 1
+                }
+            ]
+        }
+    ],
+    "otomotiv": [
+        {
+            "soru": "İlk elektrikli aracının kalbini hangi batarya teknolojisiyle inşa edeceksin?",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Katı hal (Solid-State) batarya AR-GE'sine sıfırdan girişmek",
+                    "e": "Kararınız uygulandı. Sermaye -40, itibar +35, risk +1.",
+                    "s": -40,
+                    "i": 35,
+                    "r": 1
+                },
+                {
+                    "h": "B",
+                    "m": "Düşük maliyetli LFP bataryalarla seri üretime geçmek",
+                    "e": "Kararınız uygulandı. Sermaye +30, itibar +10, risk 0.",
+                    "s": 30,
+                    "i": 10,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "Değiştirilebilir (Battery-Swap) istasyon ağına uyumlu kasa yapmak",
+                    "e": "Kararınız uygulandı. Sermaye -20, itibar +20, risk +2.",
+                    "s": -20,
+                    "i": 20,
+                    "r": 2
+                },
+                {
+                    "h": "D",
+                    "m": "Yüksek performanslı ama ısınma riski taşıyan NMC batarya kullanmak",
+                    "e": "Kararınız uygulandı. Sermaye +25, itibar -10, risk +3.",
+                    "s": 25,
+                    "i": -10,
+                    "r": 3
+                }
+            ]
+        },
+        {
+            "soru": "Bağımsız güvenlik kuruluşu Euro NCAP testinde aracının yan direk darbesi 4 yıldızda kaldı:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Şasi alaşımını güçlendirip aracı 5 yıldız alana kadar lansmanı ertele",
+                    "e": "Kararınız uygulandı. Sermaye -30, itibar +30, risk 0.",
+                    "s": -30,
+                    "i": 30,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Test prosedürlerinin eski olduğunu savunup aracı 4 yıldızla satışa çıkar",
+                    "e": "Kararınız uygulandı. Sermaye +25, itibar -25, risk +2.",
+                    "s": 25,
+                    "i": -25,
+                    "r": 2
+                },
+                {
+                    "h": "C",
+                    "m": "Sadece gelişmekte olan pazarlara ihraç edip Avrupa lansmanını ötele",
+                    "e": "Kararınız uygulandı. Sermaye +15, itibar -10, risk +1.",
+                    "s": 15,
+                    "i": -10,
+                    "r": 1
+                },
+                {
+                    "h": "D",
+                    "m": "Yazılım tabanlı aktif çarpışma önleyici sensör ekleyip tekrar teste gir",
+                    "e": "Kararınız uygulandı. Sermaye -15, itibar +20, risk 0.",
+                    "s": -15,
+                    "i": 20,
+                    "r": 0
+                }
+            ]
+        },
+        {
+            "soru": "Otonom sürüş donanımında sensör maliyetleri araç fiyatını çok yukarı çekiyor:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Pahalı Lidar sensörlerinden vazgeçip sadece yapay zeka destekli kameralara geç",
+                    "e": "Kararınız uygulandı. Sermaye +25, itibar -15, risk +3.",
+                    "s": 25,
+                    "i": -15,
+                    "r": 3
+                },
+                {
+                    "h": "B",
+                    "m": "Güvenlikten taviz vermeyip Lidar + Radar + Kamera üçlüsünü standart yap",
+                    "e": "Kararınız uygulandı. Sermaye -30, itibar +30, risk 0.",
+                    "s": -30,
+                    "i": 30,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "Lidar donanımını sadece üst paket (Pro) araçlarda opsiyonel sun",
+                    "e": "Kararınız uygulandı. Sermaye +15, itibar +5, risk +1.",
+                    "s": 15,
+                    "i": 5,
+                    "r": 1
+                },
+                {
+                    "h": "D",
+                    "m": "Otonom sürüşü şimdilik sadece otoyol şerit takibiyle sınırla",
+                    "e": "Kararınız uygulandı. Sermaye +5, itibar -5, risk 0.",
+                    "s": 5,
+                    "i": -5,
+                    "r": 0
+                }
+            ]
+        },
+        {
+            "soru": "Koltuk ısıtma ve tam motor gücü gibi donanımları aylık abonelikle açma fikri gündemde:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Tüm donanımları aracın satış fiyatına dahil edip abonelik sistemini reddet",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar +30, risk 0.",
+                    "s": -10,
+                    "i": 30,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Koltuk ısıtma ve park asistanını aylık abonelik arkasına kilitle",
+                    "e": "Kararınız uygulandı. Sermaye +35, itibar -35, risk +2.",
+                    "s": 35,
+                    "i": -35,
+                    "r": 2
+                },
+                {
+                    "h": "C",
+                    "m": "Sadece otonom sürüş yazılımını ve canlı uydu internetini abonelik yap",
+                    "e": "Kararınız uygulandı. Sermaye +20, itibar +5, risk +1.",
+                    "s": 20,
+                    "i": 5,
+                    "r": 1
+                },
+                {
+                    "h": "D",
+                    "m": "İlk 3 yıl ücretsiz verip sonrasında abonelik ücretine geç",
+                    "e": "Kararınız uygulandı. Sermaye +15, itibar -10, risk +1.",
+                    "s": 15,
+                    "i": -10,
+                    "r": 1
+                }
+            ]
+        },
+        {
+            "soru": "Elektrik motorlarında kullanılan neodimyum mıknatısların ihracatına kota getirildi:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Mıknatıssız indüksiyon motoru teknolojisine geçiş için mühendislik başlat",
+                    "e": "Kararınız uygulandı. Sermaye -25, itibar +25, risk 0.",
+                    "s": -25,
+                    "i": 25,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Eski hurda elektroniklerden geri dönüşümle nadir element ayrıştırma tesisi kur",
+                    "e": "Kararınız uygulandı. Sermaye -20, itibar +20, risk +1.",
+                    "s": -20,
+                    "i": 20,
+                    "r": 1
+                },
+                {
+                    "h": "C",
+                    "m": "Motor gücünü %15 düşürerek mevcut mıknatıs stoklarıyla üretime devam et",
+                    "e": "Kararınız uygulandı. Sermaye +15, itibar -20, risk +2.",
+                    "s": 15,
+                    "i": -20,
+                    "r": 2
+                },
+                {
+                    "h": "D",
+                    "m": "Aracı firmalar üzerinden yüksek komisyonla hammadde toplamaya devam et",
+                    "e": "Kararınız uygulandı. Sermaye -35, itibar 0, risk +1.",
+                    "s": -35,
+                    "i": 0,
+                    "r": 1
+                }
+            ]
+        },
+        {
+            "soru": "50.000 aracın fren hidrolik valfinde nadir görülen bir üretim hatası tespit edildi:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Tüm araçları yetkili servislere çağırıp parçayı ücretsiz değiştir",
+                    "e": "Kararınız uygulandı. Sermaye -35, itibar +35, risk 0.",
+                    "s": -35,
+                    "i": 35,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Uzaktan yazılım güncellemesiyle rejeneratif frenlemeyi artırıp sorunu gizle",
+                    "e": "Kararınız uygulandı. Sermaye +10, itibar -40, risk +4.",
+                    "s": 10,
+                    "i": -40,
+                    "r": 4
+                },
+                {
+                    "h": "C",
+                    "m": "Sadece arıza ışığı yanan araçların parçasını garanti kapsamında değiştir",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar -15, risk +2.",
+                    "s": -10,
+                    "i": -15,
+                    "r": 2
+                },
+                {
+                    "h": "D",
+                    "m": "Hatanın tedarikçi firmadan kaynaklandığını açıklayıp faturayı onlara kes",
+                    "e": "Kararınız uygulandı. Sermaye -5, itibar -5, risk +1.",
+                    "s": -5,
+                    "i": -5,
+                    "r": 1
+                }
+            ]
+        },
+        {
+            "soru": "Köklü bir Alman otomobil üreticisi senin elektrikli şasi platformunu kiralamak istiyor:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Şasi lisansını milyar dolarlık anlaşmayla rakibine kirala",
+                    "e": "Kararınız uygulandı. Sermaye +65, itibar +15, risk +1.",
+                    "s": 65,
+                    "i": 15,
+                    "r": 1
+                },
+                {
+                    "h": "B",
+                    "m": "Teknolojik üstünlüğünü korumak için lisans talebini reddet",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar +20, risk 0.",
+                    "s": -10,
+                    "i": 20,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "Sadece eski nesil batarya ve şasi mimarisini lisansla",
+                    "e": "Kararınız uygulandı. Sermaye +35, itibar +10, risk 0.",
+                    "s": 35,
+                    "i": 10,
+                    "r": 0
+                },
+                {
+                    "h": "D",
+                    "m": "Ortak bir alt marka kurarak Avrupa fabrikalarını ortak kullan",
+                    "e": "Kararınız uygulandı. Sermaye +25, itibar +25, risk +1.",
+                    "s": 25,
+                    "i": 25,
+                    "r": 1
+                }
+            ]
+        },
+        {
+            "soru": "Markanın performans algısını kanıtlamak için Formula E yarış takımına katılım fırsatı doğdu:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Fabrika takımı olarak Formula E'ye katılıp pistte teknoloji geliştir",
+                    "e": "Kararınız uygulandı. Sermaye -35, itibar +35, risk +1.",
+                    "s": -35,
+                    "i": 35,
+                    "r": 1
+                },
+                {
+                    "h": "B",
+                    "m": "Yarış bütçesini doğrudan kullanıcıların şarj istasyonu ağına aktar",
+                    "e": "Kararınız uygulandı. Sermaye -20, itibar +20, risk 0.",
+                    "s": -20,
+                    "i": 20,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "Sadece bir yarış takımına motor tedarikçisi olarak düşük maliyetle katıl",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar +15, risk 0.",
+                    "s": -10,
+                    "i": 15,
+                    "r": 0
+                },
+                {
+                    "h": "D",
+                    "m": "Pikes Peak tırmanma yarışında tek seferlik dünya rekoru denemesi yap",
+                    "e": "Kararınız uygulandı. Sermaye -15, itibar +25, risk +2.",
+                    "s": -15,
+                    "i": 25,
+                    "r": 2
+                }
+            ]
+        },
+        {
+            "soru": "Sıfır emisyonlu üretim yaptığın için elinde biriken karbon kredilerini nasıl değerlendireceksin?",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Kredileri fosil yakıtlı rakiplerine satarak kasaya devasa nakit sok",
+                    "e": "Kararınız uygulandı. Sermaye +60, itibar -15, risk +1.",
+                    "s": 60,
+                    "i": -15,
+                    "r": 1
+                },
+                {
+                    "h": "B",
+                    "m": "Kredileri satmayıp kendi tedarik zincirini tamamen karbon-nötr yap",
+                    "e": "Kararınız uygulandı. Sermaye -15, itibar +35, risk 0.",
+                    "s": -15,
+                    "i": 35,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "Yarısını nakde çevir, yarısıyla ağaçlandırma ve güneş enerjisi projesi yap",
+                    "e": "Kararınız uygulandı. Sermaye +25, itibar +20, risk 0.",
+                    "s": 25,
+                    "i": 20,
+                    "r": 0
+                },
+                {
+                    "h": "D",
+                    "m": "Kredileri dondurup ileride karbon vergileri arttığında yüksek fiyattan sat",
+                    "e": "Kararınız uygulandı. Sermaye +10, itibar +5, risk +1.",
+                    "s": 10,
+                    "i": 5,
+                    "r": 1
+                }
+            ]
+        },
+        {
+            "soru": "Final Virajı – Küresel Mobilite Vizyonu:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Şehir içi ulaşımı değiştiren otonom elektrikli toplu taşıma ve mikro-mobilite ağı kurmak",
+                    "e": "Kararınız uygulandı. Sermaye +40, itibar +45, risk 0.",
+                    "s": 40,
+                    "i": 45,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Dünyada evlerin elektrik ihtiyacını karşılayan çift yönlü (V2G) akıllı enerji-araç ekosistemi kurmak",
+                    "e": "Kararınız uygulandı. Sermaye +65, itibar +30, risk +1.",
+                    "s": 65,
+                    "i": 30,
+                    "r": 1
+                },
+                {
+                    "h": "C",
+                    "m": "Üretim hatlarını kapatıp sadece otonom sürüş işletim sistemi lisanslayan teknoloji devine dönüşmek",
+                    "e": "Kararınız uygulandı. Sermaye +95, itibar +10, risk +1.",
+                    "s": 95,
+                    "i": 10,
+                    "r": 1
+                },
+                {
+                    "h": "D",
+                    "m": "Kişiye özel el yapımı, sınırlı üretim hiper-elektrikli otomobil markasıyla lüks zirvesine yerleşmek",
+                    "e": "Kararınız uygulandı. Sermaye +75, itibar +25, risk 0.",
+                    "s": 75,
+                    "i": 25,
+                    "r": 0
+                }
+            ]
+        }
+    ],
+    "yazilim": [
+        {
+            "soru": "Geliştirdiğin yapay zeka asistanının temel çalışma prensibini belirliyorsun:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Verileri kullanıcının cihazında işleyen (Edge AI) maksimum gizlilik odaklı mimari",
+                    "e": "Kararınız uygulandı. Sermaye -25, itibar +35, risk 0.",
+                    "s": -25,
+                    "i": 35,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Tüm verileri bulutta toplayıp reklam hedeflemesiyle ücretsiz sunan model",
+                    "e": "Kararınız uygulandı. Sermaye +35, itibar -20, risk +2.",
+                    "s": 35,
+                    "i": -20,
+                    "r": 2
+                },
+                {
+                    "h": "C",
+                    "m": "Sadece finans ve hukuk şirketlerine özel kapalı devre kurumsal yapay zeka",
+                    "e": "Kararınız uygulandı. Sermaye +30, itibar +15, risk 0.",
+                    "s": 30,
+                    "i": 15,
+                    "r": 0
+                },
+                {
+                    "h": "D",
+                    "m": "Geliştiricilerin kendi eklentilerini yazabileceği modüler uygulama mağazası",
+                    "e": "Kararınız uygulandı. Sermaye +15, itibar +25, risk +1.",
+                    "s": 15,
+                    "i": 25,
+                    "r": 1
+                }
+            ]
+        },
+        {
+            "soru": "Hukuk bürolarının kullandığı modülün, var olmayan mahkeme kararları uydurduğu ortaya çıktı:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Sistemi anında bakıma alıp kaynak doğrulama (RAG) katmanı entegre et",
+                    "e": "Kararınız uygulandı. Sermaye -25, itibar +25, risk 0.",
+                    "s": -25,
+                    "i": 25,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Kullanım sözleşmesine 'Yapay zeka yanılabilir' uyarısı ekleyip sorumluluğu at",
+                    "e": "Kararınız uygulandı. Sermaye +15, itibar -30, risk +3.",
+                    "s": 15,
+                    "i": -30,
+                    "r": 3
+                },
+                {
+                    "h": "C",
+                    "m": "Kritik sektörlerde insan denetimi zorunluluğu getiren hibrit moda geç",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar +15, risk 0.",
+                    "s": -10,
+                    "i": 15,
+                    "r": 0
+                },
+                {
+                    "h": "D",
+                    "m": "Sorunu kabul etmeyip kullanıcıların hatalı komut girdiğini savun",
+                    "e": "Kararınız uygulandı. Sermaye +5, itibar -35, risk +3.",
+                    "s": 5,
+                    "i": -35,
+                    "r": 3
+                }
+            ]
+        },
+        {
+            "soru": "Platformun üzerine uygulama geliştiren binlerce bağımsız yazılımcı mevcut:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "API erişim ücretlerine %400 zam yaparak küçük geliştiricileri sistemden ele",
+                    "e": "Kararınız uygulandı. Sermaye +45, itibar -40, risk +2.",
+                    "s": 45,
+                    "i": -40,
+                    "r": 2
+                },
+                {
+                    "h": "B",
+                    "m": "Geliştiricilere gelir paylaşımı sunarak ekosistemi büyüt",
+                    "e": "Kararınız uygulandı. Sermaye -15, itibar +35, risk 0.",
+                    "s": -15,
+                    "i": 35,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "En popüler üçüncü parti eklentilerin aynısını kopyalayıp kendi sistemine göm",
+                    "e": "Kararınız uygulandı. Sermaye +30, itibar -30, risk +2.",
+                    "s": 30,
+                    "i": -30,
+                    "r": 2
+                },
+                {
+                    "h": "D",
+                    "m": "Küçük geliştiricilere ücretsiz kota verip sadece dev kurumlardan ücret al",
+                    "e": "Kararınız uygulandı. Sermaye +20, itibar +20, risk 0.",
+                    "s": 20,
+                    "i": 20,
+                    "r": 0
+                }
+            ]
+        },
+        {
+            "soru": "Bağımsız bir güvenlik araştırmacısı sisteminde kritik bir açık buldu ve ödül (Bug Bounty) istiyor:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Araştırmacıya yüklü ödül ver, adını onur listesine yaz ve yamayı yayınla",
+                    "e": "Kararınız uygulandı. Sermaye -20, itibar +35, risk 0.",
+                    "s": -20,
+                    "i": 35,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Açığı sessizce kapatıp araştırmacıya yasal tehdit göndererek susmasını iste",
+                    "e": "Kararınız uygulandı. Sermaye +5, itibar -40, risk +4.",
+                    "s": 5,
+                    "i": -40,
+                    "r": 4
+                },
+                {
+                    "h": "C",
+                    "m": "Araştırmacıyı güvenlik ekibinin başına transfer et",
+                    "e": "Kararınız uygulandı. Sermaye -25, itibar +25, risk 0.",
+                    "s": -25,
+                    "i": 25,
+                    "r": 0
+                },
+                {
+                    "h": "D",
+                    "m": "Açığın istismar edilme ihtimali düşük diyerek yamayı bir sonraki sürüme ertele",
+                    "e": "Kararınız uygulandı. Sermaye 0, itibar -20, risk +3.",
+                    "s": 0,
+                    "i": -20,
+                    "r": 3
+                }
+            ]
+        },
+        {
+            "soru": "Yeni nesil model eğitimi için gereken GPU kümesi şehrin elektrik şebekesini zorluyor:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Veri merkezinin yanına kendi güneş ve rüzgar enerjisi santralini kur",
+                    "e": "Kararınız uygulandı. Sermaye -40, itibar +35, risk 0.",
+                    "s": -40,
+                    "i": 35,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Model boyutunu küçültüp çok daha az enerji harcayan algoritmaya geç",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar +25, risk 0.",
+                    "s": -10,
+                    "i": 25,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "Enerji maliyetinin ucuz ama internet gecikmesinin yüksek olduğu kutup bölgesine taşın",
+                    "e": "Kararınız uygulandı. Sermaye -20, itibar -10, risk +1.",
+                    "s": -20,
+                    "i": -10,
+                    "r": 1
+                },
+                {
+                    "h": "D",
+                    "m": "Şebekeden yüksek tarife ödeyerek tam kapasite eğitime devam et",
+                    "e": "Kararınız uygulandı. Sermaye -30, itibar -15, risk +1.",
+                    "s": -30,
+                    "i": -15,
+                    "r": 1
+                }
+            ]
+        },
+        {
+            "soru": "AB düzenleyicileri, uygulamanı varsayılan olarak dayattığın gerekçesiyle ceza kesti:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Cezayı ödeyip kullanıcılara alternatif uygulama seçme ekranı sun",
+                    "e": "Kararınız uygulandı. Sermaye -25, itibar +20, risk 0.",
+                    "s": -25,
+                    "i": 20,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "AB pazarından çekilmekle tehdit edip yeni özellikleri Avrupa'ya kapat",
+                    "e": "Kararınız uygulandı. Sermaye -15, itibar -30, risk +2.",
+                    "s": -15,
+                    "i": -30,
+                    "r": 2
+                },
+                {
+                    "h": "C",
+                    "m": "Yasal boşlukları kullanarak arayüzü karmaşıklaştır ve kullanıcıyı içeride tut",
+                    "e": "Kararınız uygulandı. Sermaye +10, itibar -25, risk +3.",
+                    "s": 10,
+                    "i": -25,
+                    "r": 3
+                },
+                {
+                    "h": "D",
+                    "m": "AB standartlarını küresel standart haline getirip şeffaflık raporu yayınla",
+                    "e": "Kararınız uygulandı. Sermaye -15, itibar +30, risk 0.",
+                    "s": -15,
+                    "i": 30,
+                    "r": 0
+                }
+            ]
+        },
+        {
+            "soru": "Kötü niyetli kişiler ses klonlama aracını kullanarak dolandırıcılık yapmaya başladı:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Üretilen her ses ve görüntüye silinemez dijital filigran (Watermark) ekle",
+                    "e": "Kararınız uygulandı. Sermaye -15, itibar +30, risk 0.",
+                    "s": -15,
+                    "i": 30,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Ses klonlama özelliğini bireysel kullanıcılara kapatıp sadece onaylı stüdyolara aç",
+                    "e": "Kararınız uygulandı. Sermaye -20, itibar +15, risk 0.",
+                    "s": -20,
+                    "i": 15,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "'Bıçak da ekmek keser ama suçlu bıçak değildir' diyerek müdahale etme",
+                    "e": "Kararınız uygulandı. Sermaye +20, itibar -40, risk +4.",
+                    "s": 20,
+                    "i": -40,
+                    "r": 4
+                },
+                {
+                    "h": "D",
+                    "m": "Sahte içerikleri tespit eden ücretsiz bir doğrulama aracı yayınla",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar +25, risk 0.",
+                    "s": -10,
+                    "i": 25,
+                    "r": 0
+                }
+            ]
+        },
+        {
+            "soru": "Yazılımını fiziksel bir giyilebilir yapay zeka cihazına (akıllı gözlük/rozet) dönüştürme fikri doğdu:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Tasarım devleriyle çalışıp şık ve hafif bir akıllı gözlük üret",
+                    "e": "Kararınız uygulandı. Sermaye -35, itibar +30, risk +2.",
+                    "s": -35,
+                    "i": 30,
+                    "r": 2
+                },
+                {
+                    "h": "B",
+                    "m": "Donanım riskine girmeyip mevcut telefon ve bilgisayar işletim sistemlerine odaklan",
+                    "e": "Kararınız uygulandı. Sermaye +25, itibar +10, risk 0.",
+                    "s": 25,
+                    "i": 10,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "Mevcut telefon üreticileriyle anlaşıp yazılımını cihazlara ön yüklü koydur",
+                    "e": "Kararınız uygulandı. Sermaye -20, itibar +20, risk +1.",
+                    "s": -20,
+                    "i": 20,
+                    "r": 1
+                },
+                {
+                    "h": "D",
+                    "m": "Aceleyle çıkarılmış, ekranı olmayan deneysel bir yapay zeka broşu sat",
+                    "e": "Kararınız uygulandı. Sermaye -15, itibar -25, risk +3.",
+                    "s": -15,
+                    "i": -25,
+                    "r": 3
+                }
+            ]
+        },
+        {
+            "soru": "Kuantum bilgisayarların mevcut şifrelemeleri kırabileceği uyarısı yapıldı:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Tüm altyapıyı kuantum dirençli (Post-Quantum) şifreleme protokolüne geçir",
+                    "e": "Kararınız uygulandı. Sermaye -30, itibar +35, risk 0.",
+                    "s": -30,
+                    "i": 35,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Kendi kuantum bulut bilişim birimini kurarak bankalara güvenlik hizmeti sat",
+                    "e": "Kararınız uygulandı. Sermaye +45, itibar +25, risk +1.",
+                    "s": 45,
+                    "i": 25,
+                    "r": 1
+                },
+                {
+                    "h": "C",
+                    "m": "Tehdidin henüz uzak olduğunu düşünüp mevcut şifrelemeyle devam et",
+                    "e": "Kararınız uygulandı. Sermaye +10, itibar -15, risk +2.",
+                    "s": 10,
+                    "i": -15,
+                    "r": 2
+                },
+                {
+                    "h": "D",
+                    "m": "Sadece kurumsal müşterilere ek ücret karşılığı kuantum koruma paketi sun",
+                    "e": "Kararınız uygulandı. Sermaye +25, itibar 0, risk +1.",
+                    "s": 25,
+                    "i": 0,
+                    "r": 1
+                }
+            ]
+        },
+        {
+            "soru": "Final Virajı – Dijital Çağ Mirası:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "İnsanlığın tüm bilimsel makalelerini işleyip yeni malzeme ve ilaç keşifleri yapan Küresel Bilim Ağı kurmak",
+                    "e": "Kararınız uygulandı. Sermaye +50, itibar +50, risk 0.",
+                    "s": 50,
+                    "i": 50,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "İnterneti merkeziyetsiz hale getiren, sansürlenemez ve şifreli yeni nesil iletişim protokolünü hayata geçirmek",
+                    "e": "Kararınız uygulandı. Sermaye +35, itibar +45, risk +1.",
+                    "s": 35,
+                    "i": 45,
+                    "r": 1
+                },
+                {
+                    "h": "C",
+                    "m": "Tüm bulut altyapısını ve yapay zeka motorunu küresel şirketlerin vazgeçemeyeceği ana işletim sistemine dönüştürmek",
+                    "e": "Kararınız uygulandı. Sermaye +95, itibar +15, risk +1.",
+                    "s": 95,
+                    "i": 15,
+                    "r": 1
+                },
+                {
+                    "h": "D",
+                    "m": "Kişisel verilerin kontrolünü bireylere iade eden ve veri satışını bitiren etik teknoloji standardını başlatmak",
+                    "e": "Kararınız uygulandı. Sermaye +40, itibar +55, risk 0.",
+                    "s": 40,
+                    "i": 55,
+                    "r": 0
+                }
+            ]
+        }
+    ],
+    "gida": [
+        {
+            "soru": "Gıda girişiminde ilk üretim modelini hangi tarım tekniği üzerine kuracaksın?",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Onarıcı tarım (Regenerative) ile toprağı nadasa bırakıp kimyasalsız üretim yapmak",
+                    "e": "Kararınız uygulandı. Sermaye -20, itibar +35, risk 0.",
+                    "s": -20,
+                    "i": 35,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Şehir merkezlerindeki terk edilmiş binalarda dikey hidroponik tarım çiftlikleri kurmak",
+                    "e": "Kararınız uygulandı. Sermaye -35, itibar +25, risk +1.",
+                    "s": -35,
+                    "i": 25,
+                    "r": 1
+                },
+                {
+                    "h": "C",
+                    "m": "Yerel kooperatiflerle sözleşmeli ata tohumu üretimi başlatmak",
+                    "e": "Kararınız uygulandı. Sermaye +20, itibar +25, risk 0.",
+                    "s": 20,
+                    "i": 25,
+                    "r": 0
+                },
+                {
+                    "h": "D",
+                    "m": "Yüksek verimli hibrit tohumlarla geniş ovalarda endüstriyel üretim yapmak",
+                    "e": "Kararınız uygulandı. Sermaye +35, itibar -15, risk +1.",
+                    "s": 35,
+                    "i": -15,
+                    "r": 1
+                }
+            ]
+        },
+        {
+            "soru": "Hasat edilen organik ürünlerin %35'i nakliye sırasında bozuluyor:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Güneş enerjili mobil soğuk hava depoları ve akıllı sensörlü kasalar kur",
+                    "e": "Kararınız uygulandı. Sermaye -30, itibar +25, risk 0.",
+                    "s": -30,
+                    "i": 25,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Şekli bozuk veya hafif ezilmiş ürünleri kurutulmuş gıda ve sos hattına yönlendir",
+                    "e": "Kararınız uygulandı. Sermaye +25, itibar +20, risk 0.",
+                    "s": 25,
+                    "i": 20,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "Raf ömrünü uzatmak için koruyucu mumlama ve gazlı paketleme kullan",
+                    "e": "Kararınız uygulandı. Sermaye +20, itibar -25, risk +2.",
+                    "s": 20,
+                    "i": -25,
+                    "r": 2
+                },
+                {
+                    "h": "D",
+                    "m": "Sadece çiftliğe 100 km mesafedeki şehirlere satış yaparak lojistiği kısalt",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar +15, risk 0.",
+                    "s": -10,
+                    "i": 15,
+                    "r": 0
+                }
+            ]
+        },
+        {
+            "soru": "Bölgedeki yeraltı su seviyeleri kritik düzeyde düştü, komşu çiftçiler su sıkıntısı yaşıyor:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Yapay zeka destekli damla sulama ve yağmur suyu hasadı sistemine geç",
+                    "e": "Kararınız uygulandı. Sermaye -30, itibar +35, risk 0.",
+                    "s": -30,
+                    "i": 35,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Daha derin artezyen kuyuları açtırarak bölgenin yeraltı suyunu çek",
+                    "e": "Kararınız uygulandı. Sermaye +15, itibar -40, risk +3.",
+                    "s": 15,
+                    "i": -40,
+                    "r": 3
+                },
+                {
+                    "h": "C",
+                    "m": "Susuzluğa dayanıklı kurakçıl bitkilere ve bakliyat üretimine geçiş yap",
+                    "e": "Kararınız uygulandı. Sermaye +10, itibar +20, risk 0.",
+                    "s": 10,
+                    "i": 20,
+                    "r": 0
+                },
+                {
+                    "h": "D",
+                    "m": "Su tasarrufu teknolojisini komşu köylülerle ücretsiz paylaşıp havzayı koru",
+                    "e": "Kararınız uygulandı. Sermaye -20, itibar +40, risk 0.",
+                    "s": -20,
+                    "i": 40,
+                    "r": 0
+                }
+            ]
+        },
+        {
+            "soru": "Bahçelerindeki tozlaşmayı sağlayan arı popülasyonunda ani bir azalma görüldü:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Bölgedeki tüm pestisit kullanımını sıfırlayıp doğal arı meraları oluştur",
+                    "e": "Kararınız uygulandı. Sermaye -20, itibar +35, risk 0.",
+                    "s": -20,
+                    "i": 35,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Laboratuvar ortamında yetiştirilen bombus arısı kolonileri satın al",
+                    "e": "Kararınız uygulandı. Sermaye -15, itibar +10, risk +1.",
+                    "s": -15,
+                    "i": 10,
+                    "r": 1
+                },
+                {
+                    "h": "C",
+                    "m": "Mikro dronlarla yapay tozlaşma teknolojisini test et",
+                    "e": "Kararınız uygulandı. Sermaye -30, itibar +15, risk +2.",
+                    "s": -30,
+                    "i": 15,
+                    "r": 2
+                },
+                {
+                    "h": "D",
+                    "m": "Arı gerektirmeyen kendi kendini dölleyen türlere geç",
+                    "e": "Kararınız uygulandı. Sermaye +10, itibar -15, risk +1.",
+                    "s": 10,
+                    "i": -15,
+                    "r": 1
+                }
+            ]
+        },
+        {
+            "soru": "Senin meşhur ettiğin yöresel zeytinyağı ve balın adı altında ucuz taklitler satılıyor:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Her şişeye tarladan sofraya izlenebilirlik sağlayan QR kod ve blokzincir sertifikası koy",
+                    "e": "Kararınız uygulandı. Sermaye -20, itibar +30, risk 0.",
+                    "s": -20,
+                    "i": 30,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Bölge üreticileriyle birleşip Coğrafi İşaret tescili ve denetim kurulu oluştur",
+                    "e": "Kararınız uygulandı. Sermaye -15, itibar +25, risk 0.",
+                    "s": -15,
+                    "i": 25,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "Taklitçilerle rekabet etmek için kendi ürününün içine ucuz yağ karıştırıp fiyatı kır",
+                    "e": "Kararınız uygulandı. Sermaye +25, itibar -45, risk +4.",
+                    "s": 25,
+                    "i": -45,
+                    "r": 4
+                },
+                {
+                    "h": "D",
+                    "m": "Sadece kendi konsept tadım mağazalarında satış yaparak zincir marketlerden çekil",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar +20, risk +1.",
+                    "s": -10,
+                    "i": 20,
+                    "r": 1
+                }
+            ]
+        },
+        {
+            "soru": "Dünyaca ünlü şefler ürünlerini menülerinde kullanmak ve özel hasat istiyor:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Şeflere özel mikro-iklim seralarında nadir aromatik bitkiler yetiştir",
+                    "e": "Kararınız uygulandı. Sermaye +25, itibar +35, risk 0.",
+                    "s": 25,
+                    "i": 35,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Çiftliğin içine 'Tarladan Sofraya' deneyim restoranı aç",
+                    "e": "Kararınız uygulandı. Sermaye -25, itibar +30, risk +1.",
+                    "s": -25,
+                    "i": 30,
+                    "r": 1
+                },
+                {
+                    "h": "C",
+                    "m": "Şeflerin taleplerini reddedip halkın temel gıda erişimine odaklan",
+                    "e": "Kararınız uygulandı. Sermaye +15, itibar +20, risk 0.",
+                    "s": 15,
+                    "i": 20,
+                    "r": 0
+                },
+                {
+                    "h": "D",
+                    "m": "Ünlü bir şefin ismini kullanarak yüksek fiyatlı hazır gurme yemek serisi çıkar",
+                    "e": "Kararınız uygulandı. Sermaye +35, itibar +10, risk +1.",
+                    "s": 35,
+                    "i": 10,
+                    "r": 1
+                }
+            ]
+        },
+        {
+            "soru": "Süpermarket raflarında plastik ambalaj kullanımı tüketiciler tarafından eleştiriliyor:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Deniz yosunu ve mısır nişastasından üretilen yenilebilir/çözünebilir ambalaja geç",
+                    "e": "Kararınız uygulandı. Sermaye -25, itibar +35, risk 0.",
+                    "s": -25,
+                    "i": 35,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Depozitolu cam kavanoz sistemini başlatıp boş getirene indirim ver",
+                    "e": "Kararınız uygulandı. Sermaye -15, itibar +25, risk 0.",
+                    "s": -15,
+                    "i": 25,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "Ambalajsız, müşterilerin kendi kabıyla geldiği dökme satış noktaları kur",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar +20, risk +1.",
+                    "s": -10,
+                    "i": 20,
+                    "r": 1
+                },
+                {
+                    "h": "D",
+                    "m": "Maliyeti düşük tutmak için ince plastik ambalajla devam et",
+                    "e": "Kararınız uygulandı. Sermaye +15, itibar -25, risk +2.",
+                    "s": 15,
+                    "i": -25,
+                    "r": 2
+                }
+            ]
+        },
+        {
+            "soru": "Et ve süt ürünlerine alternatif bitkisel protein pazarı hızla büyüyor:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Anadolu bakliyatlarından yüksek proteinli doğal bitkisel et ve süt üret",
+                    "e": "Kararınız uygulandı. Sermaye +30, itibar +25, risk 0.",
+                    "s": 30,
+                    "i": 25,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Laboratuvar ortamında hücresel et üretimi için biyoteknoloji birimi kur",
+                    "e": "Kararınız uygulandı. Sermaye -40, itibar +15, risk +2.",
+                    "s": -40,
+                    "i": 15,
+                    "r": 2
+                },
+                {
+                    "h": "C",
+                    "m": "Geleneksel hayvancılık ve meralarda serbest gezen çiftlik modelinde kal",
+                    "e": "Kararınız uygulandı. Sermaye +15, itibar +20, risk 0.",
+                    "s": 15,
+                    "i": 20,
+                    "r": 0
+                },
+                {
+                    "h": "D",
+                    "m": "Yüksek katkı maddeli ama ucuz bitkisel ürünleri fast-food zincirlerine sat",
+                    "e": "Kararınız uygulandı. Sermaye +40, itibar -25, risk +2.",
+                    "s": 40,
+                    "i": -25,
+                    "r": 2
+                }
+            ]
+        },
+        {
+            "soru": "İklim değişikliğine dayanıklı binlerce yerel tohum çeşidi yok olma tehlikesiyle karşı karşıya:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Yeraltında yüksek güvenlikli Ulusal Ata Tohumu Bankası kur",
+                    "e": "Kararınız uygulandı. Sermaye -30, itibar +45, risk 0.",
+                    "s": -30,
+                    "i": 45,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Tohumların genetik patentini alıp diğer çiftçilere lisansla sat",
+                    "e": "Kararınız uygulandı. Sermaye +45, itibar -35, risk +2.",
+                    "s": 45,
+                    "i": -35,
+                    "r": 2
+                },
+                {
+                    "h": "C",
+                    "m": "Her yıl çiftçilerin katıldığı ücretsiz Tohum Takas Şenlikleri düzenle",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar +30, risk 0.",
+                    "s": -10,
+                    "i": 30,
+                    "r": 0
+                },
+                {
+                    "h": "D",
+                    "m": "Sadece en çok kâr getiren 5 ticari türün tohumunu koruma altına al",
+                    "e": "Kararınız uygulandı. Sermaye +15, itibar -10, risk +1.",
+                    "s": 15,
+                    "i": -10,
+                    "r": 1
+                }
+            ]
+        },
+        {
+            "soru": "Final Virajı – Küresel Tarım ve Beslenme Vizyonu:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Kurak bölgeleri yeşerten ve çölleşmeyi durduran otonom eko-tarım teknolojisini dünyaya yaymak",
+                    "e": "Kararınız uygulandı. Sermaye +45, itibar +55, risk 0.",
+                    "s": 45,
+                    "i": 55,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Şehirlerin kendi gıdasını kendi ürettiği sıfır karbonlu dikey tarım kuleleri ağını kurmak",
+                    "e": "Kararınız uygulandı. Sermaye +65, itibar +35, risk +1.",
+                    "s": 65,
+                    "i": 35,
+                    "r": 1
+                },
+                {
+                    "h": "C",
+                    "m": "Küresel gıda tedarik zincirinde israfı sıfıra indiren yapay zeka tabanlı lojistik sistemini yönetmek",
+                    "e": "Kararınız uygulandı. Sermaye +85, itibar +25, risk 0.",
+                    "s": 85,
+                    "i": 25,
+                    "r": 0
+                },
+                {
+                    "h": "D",
+                    "m": "Dünya genelinde binlerce küçük aile çiftliğini tek çatı altında birleştiren kooperatif imparatorluğu kurmak",
+                    "e": "Kararınız uygulandı. Sermaye +55, itibar +50, risk 0.",
+                    "s": 55,
+                    "i": 50,
+                    "r": 0
+                }
+            ]
+        }
+    ],
+    "saglik": [
+        {
+            "soru": "Sağlık sektörüne adım atarken ilk yatırım odağın neresi olacak?",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Kişiye özel genetik tarama ve koruyucu hekimlik merkezleri kurmak",
+                    "e": "Kararınız uygulandı. Sermaye -30, itibar +30, risk 0.",
+                    "s": -30,
+                    "i": 30,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Büyük şehirlerin merkezi noktalarında hızlı teşhis ve ayakta tedavi poliklinik zinciri açmak",
+                    "e": "Kararınız uygulandı. Sermaye +25, itibar +15, risk +1.",
+                    "s": 25,
+                    "i": 15,
+                    "r": 1
+                },
+                {
+                    "h": "C",
+                    "m": "Nadir hastalıklar için yetim ilaç (Orphan Drug) geliştiren laboratuvar kurmak",
+                    "e": "Kararınız uygulandı. Sermaye -40, itibar +40, risk +2.",
+                    "s": -40,
+                    "i": 40,
+                    "r": 2
+                },
+                {
+                    "h": "D",
+                    "m": "Hastanelere uygun fiyatlı tıbbi sarf malzemesi ve jenerik ilaç üretmek",
+                    "e": "Kararınız uygulandı. Sermaye +35, itibar 0, risk 0.",
+                    "s": 35,
+                    "i": 0,
+                    "r": 0
+                }
+            ]
+        },
+        {
+            "soru": "Geliştirdiğin yeni nesil ağrı kesicinin Faz-2 denemelerinde karaciğer enzimlerinde hafif yükselme görüldü:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Deneyleri durdurup molekülü karaciğere zarar vermeyecek şekilde yeniden sentezle",
+                    "e": "Kararınız uygulandı. Sermaye -25, itibar +30, risk 0.",
+                    "s": -25,
+                    "i": 30,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Bulguları istatistiksel sapma olarak gösterip Faz-3 onayına başvur",
+                    "e": "Kararınız uygulandı. Sermaye +35, itibar -40, risk +4.",
+                    "s": 35,
+                    "i": -40,
+                    "r": 4
+                },
+                {
+                    "h": "C",
+                    "m": "İlacı sadece ağır onkoloji hastaları için kontrollü kullanım izniyle sınırla",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar +15, risk +1.",
+                    "s": -10,
+                    "i": 15,
+                    "r": 1
+                },
+                {
+                    "h": "D",
+                    "m": "Dozajı yarıya indirip klinik test sürecini baştan tekrarla",
+                    "e": "Kararınız uygulandı. Sermaye -15, itibar +20, risk 0.",
+                    "s": -15,
+                    "i": 20,
+                    "r": 0
+                }
+            ]
+        },
+        {
+            "soru": "Açtığın ilk tıp merkezi ve poliklinikler kısa sürede çok hasta çekti; ancak mevcut uzman doktor kadrosu yetersiz kalıyor:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Doktorların maaşlarını ve primlerini yükselterek üniversiteden üst düzey uzman transfer et",
+                    "e": "Kararınız uygulandı. Sermaye -25, itibar +30, risk 0.",
+                    "s": -25,
+                    "i": 30,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Mevcut doktorların günlük baktığı hasta kotasını artırıp randevu aralıklarını daralt",
+                    "e": "Kararınız uygulandı. Sermaye +15, itibar -30, risk +2.",
+                    "s": 15,
+                    "i": -30,
+                    "r": 2
+                },
+                {
+                    "h": "C",
+                    "m": "Akşam ve hafta sonu vardiyaları ekleyip ek mesai ücreti öde",
+                    "e": "Kararınız uygulandı. Sermaye -15, itibar +15, risk 0.",
+                    "s": -15,
+                    "i": 15,
+                    "r": 0
+                },
+                {
+                    "h": "D",
+                    "m": "Randevu sistemini yapay zeka triyajına devredip hafif vakaları asistanlara yönlendir",
+                    "e": "Kararınız uygulandı. Sermaye +10, itibar -15, risk +1.",
+                    "s": 10,
+                    "i": -15,
+                    "r": 1
+                }
+            ]
+        },
+        {
+            "soru": "Kırsal bölgelerdeki hastaların uzman doktorlara erişimi çok kısıtlı, hizmet ağını nasıl genişleteceksin?",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Giyilebilir EKG/tansiyon sensörleriyle entegre 7/24 Teletıp platformu kur",
+                    "e": "Kararınız uygulandı. Sermaye -20, itibar +30, risk 0.",
+                    "s": -20,
+                    "i": 30,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Köylere giden donanımlı mobil tarama ve ameliyat tırları filosu oluştur",
+                    "e": "Kararınız uygulandı. Sermaye -25, itibar +35, risk 0.",
+                    "s": -25,
+                    "i": 35,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "Sadece büyük şehirlerdeki yüksek gelirli hastalara özel VIP evde bakım hizmeti ver",
+                    "e": "Kararınız uygulandı. Sermaye +30, itibar -15, risk +1.",
+                    "s": 30,
+                    "i": -15,
+                    "r": 1
+                },
+                {
+                    "h": "D",
+                    "m": "Teletıp görüşmelerini yapay zeka ön tanı botuna devredip doktor maliyetini kıs",
+                    "e": "Kararınız uygulandı. Sermaye +20, itibar -25, risk +3.",
+                    "s": 20,
+                    "i": -25,
+                    "r": 3
+                }
+            ]
+        },
+        {
+            "soru": "MR, tomografi ve cerrahi robotların yedek parça maliyetleri kur artışı nedeniyle fırladı:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Mühendislik ekibi kurarak yerli görüntüleme cihazı ve sensör üretimine başla",
+                    "e": "Kararınız uygulandı. Sermaye -35, itibar +35, risk 0.",
+                    "s": -35,
+                    "i": 35,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Özel sigorta şirketleriyle anlaşarak tetkik ücretlerini yukarı çek",
+                    "e": "Kararınız uygulandı. Sermaye +25, itibar -15, risk +1.",
+                    "s": 25,
+                    "i": -15,
+                    "r": 1
+                },
+                {
+                    "h": "C",
+                    "m": "Cihazların bakım periyotlarını uzatarak servis masraflarını azalt",
+                    "e": "Kararınız uygulandı. Sermaye +15, itibar -30, risk +3.",
+                    "s": 15,
+                    "i": -30,
+                    "r": 3
+                },
+                {
+                    "h": "D",
+                    "m": "Üniversite hastaneleriyle ortak cihaz kullanım havuzu oluştur",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar +20, risk 0.",
+                    "s": -10,
+                    "i": 20,
+                    "r": 0
+                }
+            ]
+        },
+        {
+            "soru": "Hastaneler zincirinin ana sunucuları bir siber çete tarafından fidye yazılımıyla (Ransomware) kilitlendi:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Fidye ödemeyi reddedip yedekleri yüklerken operasyonu manuel sisteme (kâğıt-kalem) geçir",
+                    "e": "Kararınız uygulandı. Sermaye -15, itibar +30, risk +1.",
+                    "s": -15,
+                    "i": 30,
+                    "r": 1
+                },
+                {
+                    "h": "B",
+                    "m": "Siber çetenin istediği fidyeyi gizlice ödeyip verileri derhal geri al",
+                    "e": "Kararınız uygulandı. Sermaye -30, itibar -35, risk +3.",
+                    "s": -30,
+                    "i": -35,
+                    "r": 3
+                },
+                {
+                    "h": "C",
+                    "m": "Ulusal siber güvenlik birimi ve istihbaratla ortak operasyon düzenleyip sunucuları kurtar",
+                    "e": "Kararınız uygulandı. Sermaye -20, itibar +25, risk 0.",
+                    "s": -20,
+                    "i": 25,
+                    "r": 0
+                },
+                {
+                    "h": "D",
+                    "m": "Sızıntının boyutunu küçümseyip hasta verilerinin çalınmadığını kamuoyuna duyur",
+                    "e": "Kararınız uygulandı. Sermaye +10, itibar -40, risk +4.",
+                    "s": 10,
+                    "i": -40,
+                    "r": 4
+                }
+            ]
+        },
+        {
+            "soru": "Artık oturmuş hastane zincirin yurt dışından yoğun ilgi görüyor ve küresel sağlık turizmine açılma fırsatı doğdu:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Tüm hastaneyi uluslararası JCI standartlarına göre yenileyip küresel sağlık turizmi merkezi kur",
+                    "e": "Kararınız uygulandı. Sermaye -30, itibar +35, risk 0.",
+                    "s": -30,
+                    "i": 35,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Yabancı hastalara yüksek döviz kurlarıyla VIP paketler satıp mevcut altyapıyla devam et",
+                    "e": "Kararınız uygulandı. Sermaye +40, itibar -15, risk +2.",
+                    "s": 40,
+                    "i": -15,
+                    "r": 2
+                },
+                {
+                    "h": "C",
+                    "m": "Yurt dışı açılımını reddedip sadece yerel hastaların erişilebilir tedavisine odaklan",
+                    "e": "Kararınız uygulandı. Sermaye +10, itibar +20, risk 0.",
+                    "s": 10,
+                    "i": 20,
+                    "r": 0
+                },
+                {
+                    "h": "D",
+                    "m": "Yabancı aracı acentelerle yüksek komisyonlu anlaşmalar yapıp hasta akışını dışarıdan sağla",
+                    "e": "Kararınız uygulandı. Sermaye +25, itibar -10, risk +2.",
+                    "s": 25,
+                    "i": -10,
+                    "r": 2
+                }
+            ]
+        },
+        {
+            "soru": "DNA analizi yaptıran yüz binlerce hastanın genetik verilerini sigorta şirketleri satın almak istiyor:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Sigorta şirketlerinin teklifini reddet ve hasta verilerini uçtan uca şifrele",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar +40, risk 0.",
+                    "s": -10,
+                    "i": 40,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Verileri anonimleştirip sadece akademik kanser araştırmalarına ücretsiz aç",
+                    "e": "Kararınız uygulandı. Sermaye -5, itibar +35, risk 0.",
+                    "s": -5,
+                    "i": 35,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "Kullanıcılardan gizli onay kutucuğuyla verileri sigorta devlerine sat",
+                    "e": "Kararınız uygulandı. Sermaye +60, itibar -50, risk +4.",
+                    "s": 60,
+                    "i": -50,
+                    "r": 4
+                },
+                {
+                    "h": "D",
+                    "m": "Hastaya kendi verisinden elde edilen araştırma gelirinden pay ver",
+                    "e": "Kararınız uygulandı. Sermaye +20, itibar +20, risk +1.",
+                    "s": 20,
+                    "i": 20,
+                    "r": 1
+                }
+            ]
+        },
+        {
+            "soru": "Başka bir kıtadaki cerrahın senin hastanendeki hastayı robot kollarla ameliyat etmesi test ediliyor:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Düşük gecikmeli fiber altyapı ve yedekli güç sistemiyle ilk kıtalararası ameliyatı gerçekleştir",
+                    "e": "Kararınız uygulandı. Sermaye -30, itibar +40, risk +1.",
+                    "s": -30,
+                    "i": 40,
+                    "r": 1
+                },
+                {
+                    "h": "B",
+                    "m": "Teknolojinin olgunlaşmasını bekleyip önce simülasyon eğitim merkezleri kur",
+                    "e": "Kararınız uygulandı. Sermaye -15, itibar +20, risk 0.",
+                    "s": -15,
+                    "i": 20,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "İletişim kopması riskini göze alıp canlı yayında şov amaçlı ameliyat yap",
+                    "e": "Kararınız uygulandı. Sermaye +10, itibar -25, risk +4.",
+                    "s": 10,
+                    "i": -25,
+                    "r": 4
+                },
+                {
+                    "h": "D",
+                    "m": "Robotik cerrahi sistemini sadece ortopedi ve mikro-cerrahi ile sınırla",
+                    "e": "Kararınız uygulandı. Sermaye -10, itibar +15, risk 0.",
+                    "s": -10,
+                    "i": 15,
+                    "r": 0
+                }
+            ]
+        },
+        {
+            "soru": "Final Virajı – Küresel Tıp ve Biyoteknoloji Vizyonu:",
+            "siklar": [
+                {
+                    "h": "A",
+                    "m": "Çaresiz ve nadir genetik hastalıkların tedavisini tüm dünyada erişilebilir kılan Açık Kaynaklı Şifa Vakfı kurmak",
+                    "e": "Kararınız uygulandı. Sermaye +35, itibar +60, risk 0.",
+                    "s": 35,
+                    "i": 60,
+                    "r": 0
+                },
+                {
+                    "h": "B",
+                    "m": "Organ bekleme listelerini bitiren 3D Biyobaskı Yapay Organ ve Doku Nakli Merkezleri ağını dünyaya yaymak",
+                    "e": "Kararınız uygulandı. Sermaye +65, itibar +40, risk 0.",
+                    "s": 65,
+                    "i": 40,
+                    "r": 0
+                },
+                {
+                    "h": "C",
+                    "m": "Kişinin DNA profiline göre kanseri hücre aşamasındayken durduran mRNA aşı platformunu küreselleştirmek",
+                    "e": "Kararınız uygulandı. Sermaye +80, itibar +35, risk +1.",
+                    "s": 80,
+                    "i": 35,
+                    "r": 1
+                },
+                {
+                    "h": "D",
+                    "m": "Tüm tanı, ilaç ve hastane sistemlerini tek çatı altında birleştiren küresel dijital sağlık ekosistemini yönetmek",
+                    "e": "Kararınız uygulandı. Sermaye +95, itibar +20, risk +1.",
+                    "s": 95,
+                    "i": 20,
+                    "r": 1
+                }
+            ]
+        }
+    ]
+};
+
+    function soruYukle() {
+        const winnerBox = document.getElementById('teamWinnerBox');
+        if (winnerBox) winnerBox.classList.add('hidden');
+        stopLeaderboardAdvance();
+        stopQuestionTimer();
+        window.answerLocked = false;
+        audioEngine.playBeep(300, 0.1);
+        let sorular = veritabani[gameState.sektor];
+        if (gameState.asama >= sorular.length) {
+            bitir("basari");
+            return;
+        }
+
+        document.getElementById('sMod').innerText = secilenMod === 'tek' ? 'Bireysel' : 'Meydan Okuma';
+        document.getElementById('sAsama').innerText = gameState.asama + 1;
+        document.getElementById('sSermaye').innerText = gameState.sermaye;
+        document.getElementById('sItibar').innerText = gameState.itibar;
+        document.getElementById('sRisk').innerText = gameState.risk;
+
+        let body = document.getElementById('pageBody');
+        if (gameState.risk >= 4 || gameState.sermaye <= 20 || gameState.itibar <= 20) {
+            body.classList.add('danger-mode');
+        } else {
+            body.classList.remove('danger-mode');
+        }
+
+        let q = sorular[gameState.asama];
+        document.getElementById('modeIndicator').innerText = `Şirket: ${oyuncuAdi}`;
+        document.getElementById('qText').innerText = q.soru;
+
+        let box = document.getElementById('cBox');
+        box.innerHTML = "";
+
+        q.siklar.forEach((sik) => {
+            let btn = document.createElement('button');
+            btn.className = "btn";
+            btn.innerHTML = `<strong>[${sik.h}]</strong> ${sik.m}`;
+            btn.onclick = () => secimYap(sik);
+            box.appendChild(btn);
+        });
+        startQuestionTimer();
+    }
+
+    function secimYap(sik, remoteTeamChoice = false) {
+        if (secilenMod === 'takim' && window.multiplayerRoom && !remoteTeamChoice) {
+            window.castTeamVote(sik.h);
+            return;
+        }
+        if (window.answerLocked && !remoteTeamChoice) return;
+        stopQuestionTimer();
+        window.answerLocked = true;
+        audioEngine.playBeep(587.33, 0.15);
+        gameState.sermaye += sik.s;
+        gameState.itibar += sik.i;
+        gameState.risk += sik.r;
+
+        let log = document.getElementById('logBox');
+        log.classList.remove('hidden');
+        if (secilenMod === 'takim' && window.multiplayerRoom && remoteTeamChoice) {
+            const counts = window.teamVoteCounts || {};
+            const voteSummary = ['A','B','C','D'].filter(key => counts[key] !== undefined).map(key => `${key}: ${counts[key]} oy`).join(' · ') || 'Oy kullanılmadı';
+            log.innerHTML = `<strong>🏆 Çoğunluğun kazanan seçimi: [${sik.h}] ${sik.m}</strong><br><strong>Karar sonucu:</strong> ${sik.e}<br><span style="color:var(--accent-neon)">Oy dağılımı: ${voteSummary}</span>`;
+        } else {
+            log.innerHTML = `<strong>Karar Sonucu:</strong> ${sik.e}`;
+        }
+
+        oyuncuKaydiniGuncelle();
+        if (window.saveMultiplayerScore) window.saveMultiplayerScore();
+
+        if (gameState.sermaye <= 0) { bitir("iflas_kasa"); return; }
+        if (gameState.itibar <= 0) { bitir("iflas_itibar"); return; }
+        if (gameState.risk >= 5) { bitir("iflas_risk"); return; }
+
+        setTimeout(() => {
+            log.classList.add('hidden');
+            liderlikTablosunuGoster();
+        }, 1500);
+    }
+
+    window.applyRemoteTeamChoice = function(choiceKey, counts = {}) {
+        if (window.appliedTeamStage === gameState.asama) return;
+        const question = veritabani[gameState.sektor]?.[gameState.asama];
+        const choice = question?.siklar?.find(item => item.h === choiceKey);
+        if (!choice) return;
+        window.appliedTeamStage = gameState.asama;
+        window.teamVoteCounts = counts || {};
+        const winnerBox = document.getElementById('teamWinnerBox');
+        if (winnerBox) {
+            const voteSummary = ['A','B','C','D'].filter(key => counts[key] !== undefined).map(key => `${key}: ${counts[key]} oy`).join(' · ') || 'Oy kullanılmadı';
+            winnerBox.innerHTML = `<strong>🏆 Kazanan takım seçimi: [${choice.h}] ${choice.m}</strong><br><span>Oy dağılımı: ${voteSummary}</span><br><span style="color:#94a3b8;font-size:12px">Sonuç bütün oyunculara uygulandı. Sonraki tura oda sahibi geçirecek.</span>`;
+            winnerBox.classList.remove('hidden');
+        }
+        secimYap(choice, true);
+    };
+
+    function oyuncuKaydiniGuncelle() {
+        try {
+            let kayitlar = JSON.parse(localStorage.getItem('ceo_empire_oyuncular')) || {};
+            kayitlar[oyuncuAdi] = { 
+                sermaye: gameState.sermaye, 
+                itibar: gameState.itibar, 
+                risk: gameState.risk, 
+                mod: secilenMod
+            };
+            localStorage.setItem('ceo_empire_oyuncular', JSON.stringify(kayitlar));
+        } catch(e) {}
+    }
+
+    function liderlikTablosunuGoster() {
+        stopQuestionTimer();
+        stopLeaderboardAdvance();
+        document.getElementById('screenGame').classList.add('hidden');
+        document.getElementById('screenLB').classList.remove('hidden');
+
+        let lbList = document.getElementById('lbList');
+        lbList.innerHTML = "";
+
+        let kayitlar = JSON.parse(localStorage.getItem('ceo_empire_oyuncular')) || {};
+        let liste = [];
+        if (window.multiplayerRoom && secilenMod === 'tek' && window.onlinePlayerRecords) {
+            liste = window.onlinePlayerRecords.map(p => ({ isim: p.name, sermaye: p.sermaye || 0, itibar: p.itibar || 0, uid: p.uid }));
+        } else {
+            for(let isim in kayitlar) liste.push({ isim: isim, ...kayitlar[isim] });
+        }
+        liste.sort((a, b) => b.sermaye - a.sermaye);
+
+        liste.forEach((item, index) => {
+            let row = document.createElement('div');
+            row.className = "lb-row";
+            row.innerHTML = `<span>#${index+1} ${item.isim} ${item.isim === oyuncuAdi ? '(Sen)' : ''}</span> <span>$${item.sermaye}M (İtibar: ${item.itibar})</span>`;
+            lbList.appendChild(row);
+        });
+
+        const nextBtn = document.getElementById('nextTurnBtn');
+        if (secilenMod === 'tek') {
+            let remaining = 7;
+            if (nextBtn) nextBtn.textContent = `Sıradaki tura geçiliyor (${remaining})`;
+            leaderboardCountdownInterval = setInterval(() => {
+                remaining = Math.max(0, remaining - 1);
+                if (nextBtn) nextBtn.textContent = remaining > 0 ? `Sıradaki tura geçiliyor (${remaining})` : 'Sonraki tura geçiliyor…';
+            }, 1000);
+            leaderboardAdvanceTimeout = setTimeout(() => sonrakiAsamayaGec(), 7000);
+        } else if (nextBtn) {
+            nextBtn.textContent = 'Oda sahibi sonraki tura geçirecek ➡️';
+        }
+    }
+
+    function sonrakiAsamayaGec(remoteAdvance = false) {
+        stopLeaderboardAdvance();
+        if (secilenMod === 'takim' && window.multiplayerRoom && !remoteAdvance) {
+            if (!window.isRoomHost) return;
+            window.advanceTeamRound();
+            return;
+        }
+        audioEngine.playBeep(783.99, 0.15);
+        document.getElementById('screenLB').classList.add('hidden');
+        document.getElementById('screenGame').classList.remove('hidden');
+        gameState.asama++;
+        soruYukle();
+    }
+
+    function paraYagmuruBaslat() {
+        let container = document.getElementById('moneyRainContainer');
+        container.style.display = 'block';
+        container.innerHTML = "";
+        for(let i=0; i<50; i++) {
+            let bill = document.createElement('div');
+            bill.className = 'money-bill';
+            bill.innerText = ['💵', '💶', '🪙', '💰'][Math.floor(Math.random()*4)];
+            bill.style.left = Math.random() * 100 + 'vw';
+            bill.style.top = -30 + 'px';
+            bill.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            bill.style.animationDelay = Math.random() * 2 + 's';
+            container.appendChild(bill);
+        }
+    }
+
+    function bitir(tur) {
+        stopQuestionTimer();
+        stopLeaderboardAdvance();
+        audioEngine.playBeep(880, 0.4);
+        document.getElementById('screenGame').classList.add('hidden');
+        document.getElementById('screenLB').classList.add('hidden');
+        document.getElementById('statsBar').classList.add('hidden');
+        document.getElementById('screenEnd').classList.remove('hidden');
+        document.getElementById('pageBody').classList.remove('danger-mode');
+
+        let t = document.getElementById('eTitle');
+        let m = document.getElementById('eMsg');
+
+        if (tur === "iflas_kasa" || gameState.sermaye <= 0) {
+            t.style.color = "var(--danger-color)";
+            t.innerText = "🚨 İFLAS: Kasa Tam Takır!";
+            m.innerText = `${oyuncuAdi}, nakit rezervleri tamamen tükendi, cüzdan tam takır kaldı!`;
+        } else if (tur === "iflas_itibar" || gameState.itibar <= 0) {
+            t.style.color = "var(--danger-color)";
+            t.innerText = "🚨 İTİBAR SKANDALI!";
+            m.innerText = `${oyuncuAdi}, şirket skandallarla anıldı ve boykot edildi!`;
+        } else if (tur === "iflas_risk" || gameState.risk >= 5) {
+            t.style.color = "var(--danger-color)";
+            t.innerText = "🚨 AŞIRI RİSK HÜSRANI!";
+            m.innerText = `${oyuncuAdi}, spekülasyonlar ve riskler yüzünden imparatorluk çöktü!`;
+        } else {
+            t.style.color = "#10b981";
+            t.innerText = "🏆 PİYASA LİDERLİĞİ VE ZAFER!";
+            m.innerText = `${oyuncuAdi}, imparatorluğu zirveye taşıdın! Para yağmuru altında kutlama vakti!`;
+            paraYagmuruBaslat();
+        }
+
+        document.getElementById('finalLbContainer').classList.remove('hidden');
+        let finalLbList = document.getElementById('finalLbList');
+        finalLbList.innerHTML = "";
+
+        let kayitlar = JSON.parse(localStorage.getItem('ceo_empire_oyuncular')) || {};
+        let liste = [];
+        for(let isim in kayitlar) {
+            liste.push({ isim: isim, ...kayitlar[isim] });
+        }
+        liste.sort((a, b) => b.sermaye - a.sermaye);
+
+        liste.forEach((item, index) => {
+            let row = document.createElement('div');
+            row.className = "lb-row";
+            row.innerHTML = `<span>#${index+1} ${item.isim} ${item.isim === oyuncuAdi ? '(Sen)' : ''}</span> <span>$${item.sermaye}M</span>`;
+            finalLbList.appendChild(row);
+        });
+    }
+</script>
+
+<!-- Firebase: anonim giriş, oda yönetimi ve canlı çok oyunculu senkronizasyon -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, onSnapshot, serverTimestamp, runTransaction } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCG4EDmiKDwWnhGNStxUqaaziVhk_U606Q",
+        authDomain: "ceo-empire-c1e92.firebaseapp.com",
+        projectId: "ceo-empire-c1e92",
+        storageBucket: "ceo-empire-c1e92.firebasestorage.app",
+        messagingSenderId: "349963082989",
+        appId: "1:349963082989:web:d0d628849d0383096940e4",
+        measurementId: "G-REGEYLP82F"
+    };
+
+    const statusEl = document.getElementById("firebaseStatus");
+    let db, auth, roomUnsub = null, playersUnsub = null, votesUnsub = null;
+    let roomData = null, playerRecords = [], resolvingVote = false;
+    let currentVoteStage = -1;
+    window.multiplayerRoom = null;
+    window.isRoomHost = false;
+
+    function setStatus(message, color = "#34d399") {
+        statusEl.textContent = message;
+        statusEl.style.color = color;
+    }
+    function show(id) { document.getElementById(id)?.classList.remove('hidden'); }
+    function hide(id) { document.getElementById(id)?.classList.add('hidden'); }
+    function makeCode() {
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        let result = '';
+        for (let i = 0; i < 6; i++) result += chars[Math.floor(Math.random() * chars.length)];
+        return result;
+    }
+    function escapeText(value) {
+        return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    }
+    function stopListeners() {
+        if (roomUnsub) roomUnsub();
+        if (playersUnsub) playersUnsub();
+        if (votesUnsub) votesUnsub();
+        roomUnsub = playersUnsub = votesUnsub = null;
+    }
+    async function ensureAuth() {
+        if (!auth.currentUser) await signInAnonymously(auth);
+        return auth.currentUser;
+    }
+    function roomRef() { return doc(db, 'rooms', window.multiplayerRoom); }
+
+    try {
+        const app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+        auth = getAuth(app);
+        window.firebaseApp = app;
+        window.db = db;
+        await ensureAuth();
+        window.firebaseReady = true;
+        setStatus('☁️ Firebase etkin · Anonim oyuncu girişi hazır');
+    } catch (error) {
+        console.error('Firebase bağlantı hatası:', error);
+        window.firebaseReady = false;
+        setStatus('⚠️ Firebase bağlantısı kurulamadı: ' + (error.code || error.message), '#fb7185');
+    }
+
+    window.openRoomScreen = async function() {
+        try {
+            await ensureAuth();
+            document.getElementById('screenLogin').classList.add('hidden');
+            show('screenRoom');
+            show('roomActions');
+            hide('roomLobby');
+            document.getElementById('roomModeDisplay').textContent = secilenMod === 'tek' ? '👤 Bireysel mod · Her oyuncu kendi kararını verir' : '⚔️ Takım modu · Her soru için çoğunluk oyu';
+            setStatus('☁️ Sunucuya bağlandı');
+        } catch (error) {
+            console.error(error);
+            alert('Giriş yapılamadı. Firebase Authentication içindeki Anonim sağlayıcısının etkin olduğunu kontrol edin.');
+        }
+    };
+
+    async function enterRoom(code, isHost, mode) {
+        const user = await ensureAuth();
+        window.multiplayerRoom = code;
+        window.isRoomHost = isHost;
+        const playerRef = doc(db, 'rooms', code, 'players', user.uid);
+        await setDoc(playerRef, {
+            uid: user.uid,
+            name: oyuncuAdi,
+            mode,
+            sermaye: 100,
+            itibar: 50,
+            risk: 0,
+            stage: 0,
+            joinedAt: serverTimestamp()
+        });
+        show('roomLobby');
+        hide('roomActions');
+        document.getElementById('roomCodeDisplay').textContent = code;
+        document.getElementById('hostSectorPicker').classList.toggle('hidden', !isHost);
+        document.getElementById('roomWaitingText').textContent = isHost ? 'Sektörü seçip oyunu başlatabilirsin.' : 'Oda sahibinin oyunu başlatması bekleniyor.';
+        subscribeRoom();
+        setStatus('☁️ Odaya bağlandın: ' + code);
+    }
+
+    window.createGameRoom = async function() {
+        try {
+            const user = await ensureAuth();
+            let code, ref, snap;
+            for (let attempt = 0; attempt < 5; attempt++) {
+                code = makeCode();
+                ref = doc(db, 'rooms', code);
+                snap = await getDoc(ref);
+                if (!snap.exists()) break;
+            }
+            if (snap?.exists()) throw new Error('Benzersiz oda kodu oluşturulamadı. Tekrar deneyin.');
+            await setDoc(ref, {
+                hostUid: user.uid,
+                status: 'waiting',
+                mode: secilenMod,
+                sector: null,
+                stage: 0,
+                teamResult: null,
+                createdAt: serverTimestamp()
+            });
+            await enterRoom(code, true, secilenMod);
+        } catch (error) {
+            console.error(error);
+            alert('Oda oluşturulamadı: ' + (error.code || error.message));
+        }
+    };
+
+    window.joinGameRoom = async function() {
+        const code = document.getElementById('roomCodeInput').value.trim().toUpperCase();
+        if (!/^[A-HJ-NP-Z2-9]{6}$/.test(code)) {
+            alert('Lütfen 6 karakterli geçerli oda kodunu yaz.');
+            return;
+        }
+        try {
+            const snap = await getDoc(doc(db, 'rooms', code));
+            if (!snap.exists()) { alert('Bu kodla bir oda bulunamadı.'); return; }
+            const data = snap.data();
+            if (data.status !== 'waiting') { alert('Bu oyun zaten başlamış.'); return; }
+            if (data.mode !== secilenMod) {
+                alert('Bu oda farklı bir oyun modunda. Giriş ekranından aynı modu seçmelisin.');
+                return;
+            }
+            await enterRoom(code, false, data.mode);
+        } catch (error) {
+            console.error(error);
+            alert('Odaya katılınamadı: ' + (error.code || error.message));
+        }
+    };
+
+    window.startRoomGame = async function() {
+        if (!window.isRoomHost || !window.multiplayerRoom) return;
+        const sector = document.getElementById('roomSectorSelect').value;
+        try {
+            await updateDoc(roomRef(), { status: 'playing', sector, stage: 0, teamResult: null, startedAt: serverTimestamp() });
+        } catch (error) {
+            console.error(error);
+            alert('Oyun başlatılamadı: ' + (error.code || error.message));
+        }
+    };
+
+    function subscribeRoom() {
+        stopListeners();
+        roomUnsub = onSnapshot(roomRef(), snap => {
+            if (!snap.exists()) { setStatus('⚠️ Oda artık bulunamıyor.', '#fb7185'); return; }
+            roomData = snap.data();
+            if (roomData.hostUid !== auth.currentUser.uid) window.isRoomHost = false;
+            document.getElementById('roomModeDisplay').textContent = roomData.mode === 'tek' ? '👤 Bireysel mod' : '⚔️ Takım modu · Çoğunluk oyu';
+            if (roomData.status === 'playing' && !window.gameStartedFromRoom) {
+                window.gameStartedFromRoom = true;
+                secilenMod = roomData.mode;
+                hide('screenRoom');
+                oyunuBaslat(roomData.sector);
+            }
+            if (roomData.status === 'playing' && roomData.mode === 'takim' && roomData.teamResult && roomData.teamResult.stage === gameState.asama) {
+                window.applyRemoteTeamChoice(roomData.teamResult.choiceKey, roomData.teamResult.counts || {});
+            }
+            if (roomData.status === 'playing' && roomData.mode === 'takim') watchVotes(roomData.stage);
+            if (roomData.mode === 'takim' && roomData.stage > gameState.asama && window.gameStartedFromRoom) {
+                window.appliedTeamStage = null;
+                sonrakiAsamayaGec(true);
+            }
+        }, error => {
+            console.error('Oda dinleme hatası:', error);
+            setStatus('⚠️ Oda bağlantısı kesildi: ' + (error.code || error.message), '#fb7185');
+        });
+
+        playersUnsub = onSnapshot(collection(db, 'rooms', window.multiplayerRoom, 'players'), snap => {
+            playerRecords = snap.docs.map(item => item.data());
+            window.onlinePlayerRecords = playerRecords;
+            const nextBtn = document.getElementById('nextTurnBtn');
+            if (nextBtn && secilenMod === 'takim') nextBtn.disabled = !window.isRoomHost;
+            document.getElementById('roomPlayersList').innerHTML = playerRecords.map(player => `<div class="room-player">${escapeText(player.name)}${player.uid === auth.currentUser.uid ? ' (Sen)' : ''}${player.uid === roomData?.hostUid ? ' · Oda sahibi' : ''}</div>`).join('') || 'Henüz oyuncu yok.';
+            if (window.multiplayerRoom && document.getElementById('screenLB') && !document.getElementById('screenLB').classList.contains('hidden') && secilenMod === 'tek') renderOnlineLeaderboard();
+        }, error => console.error('Oyuncu listesi hatası:', error));
+    }
+
+    function renderOnlineLeaderboard() {
+        const list = [...playerRecords].sort((a,b) => (b.sermaye || 0) - (a.sermaye || 0));
+        const target = document.getElementById('lbList');
+        if (!target) return;
+        target.innerHTML = list.map((p,i) => `<div class="lb-row"><span>#${i+1} ${escapeText(p.name)}${p.uid === auth.currentUser.uid ? ' (Sen)' : ''}</span><span>$${Number(p.sermaye || 0)}M (İtibar: ${Number(p.itibar || 0)})</span></div>`).join('') || 'Oyuncu bekleniyor...';
+    }
+
+    window.saveMultiplayerScore = async function() {
+        if (!window.multiplayerRoom || !auth.currentUser) return;
+        try {
+            await updateDoc(doc(db, 'rooms', window.multiplayerRoom, 'players', auth.currentUser.uid), {
+                sermaye: gameState.sermaye,
+                itibar: gameState.itibar,
+                risk: gameState.risk,
+                stage: gameState.asama
+            });
+        } catch (error) { console.error('Skor kaydedilemedi:', error); }
+    };
+
+    window.castTeamVote = async function(choiceKey) {
+        if (!window.multiplayerRoom || !auth.currentUser || window.answerLocked) return;
+        window.answerLocked = true;
+        document.querySelectorAll('#cBox button').forEach(button => button.disabled = true);
+        const stageKey = String(gameState.asama);
+        try {
+            await setDoc(doc(db, 'rooms', window.multiplayerRoom, 'votes', stageKey, 'choices', auth.currentUser.uid), {
+                uid: auth.currentUser.uid,
+                choiceKey,
+                votedAt: serverTimestamp()
+            });
+            document.getElementById('modeIndicator').textContent = 'Oyunuz kaydedildi. Diğer oyuncuların oyları bekleniyor…';
+        } catch (error) {
+            window.answerLocked = false;
+            document.querySelectorAll('#cBox button').forEach(button => button.disabled = false);
+            console.error(error);
+            alert('Oyun kaydedilemedi: ' + (error.code || error.message));
+        }
+    };
+
+    function watchVotes(stage) {
+        if (currentVoteStage === stage || !window.isRoomHost) return;
+        if (votesUnsub) votesUnsub();
+        currentVoteStage = stage;
+        resolvingVote = false;
+        let latestVotes = [];
+
+        const resolveTeamVote = async (timedOut = false) => {
+            if (resolvingVote) return;
+            resolvingVote = true;
+            const activeUids = new Set(playerRecords.map(player => player.uid));
+            const validVotes = latestVotes.filter(vote => !activeUids.size || activeUids.has(vote.uid));
+            const counts = {};
+            validVotes.forEach(vote => {
+                if (['A','B','C','D'].includes(vote.choiceKey)) {
+                    counts[vote.choiceKey] = (counts[vote.choiceKey] || 0) + 1;
+                }
+            });
+            const keys = ['A','B','C','D'];
+            const maxVotes = Math.max(0, ...Object.values(counts));
+            const tied = maxVotes === 0 ? keys : keys.filter(key => (counts[key] || 0) === maxVotes);
+            const winner = tied[Math.floor(Math.random() * tied.length)];
+            try {
+                await runTransaction(db, async transaction => {
+                    const fresh = await transaction.get(roomRef());
+                    if (!fresh.exists()) throw new Error('Oda bulunamadı.');
+                    const data = fresh.data();
+                    if (data?.teamResult?.stage === stage) return;
+                    transaction.update(roomRef(), {
+                        teamResult: {
+                            stage,
+                            choiceKey: winner,
+                            counts,
+                            totalVotes: validVotes.length,
+                            playerCount: playerRecords.length,
+                            timedOut,
+                            resolvedAt: Date.now()
+                        }
+                    });
+                });
+            } catch (error) {
+                resolvingVote = false;
+                console.error('Oylama sonuçlandırılamadı:', error);
+            }
+        };
+
+        // 30 saniye sonunda eksik oylar beklenmeden mevcut oylarla sonuç belirlenir.
+        const timeoutId = setTimeout(() => resolveTeamVote(true), QUESTION_TIME_SECONDS * 1000);
+
+        votesUnsub = onSnapshot(collection(db, 'rooms', window.multiplayerRoom, 'votes', String(stage), 'choices'), async snap => {
+            latestVotes = snap.docs.map(d => d.data());
+            const activeUids = new Set(playerRecords.map(player => player.uid));
+            const validVotes = latestVotes.filter(vote => !activeUids.size || activeUids.has(vote.uid));
+            const currentPlayers = playerRecords.length;
+            document.getElementById('modeIndicator').textContent = `Takım oylaması · ${validVotes.length}/${currentPlayers || '?'} oy kullanıldı`;
+            if (currentPlayers > 0 && validVotes.length >= currentPlayers && !resolvingVote) {
+                clearTimeout(timeoutId);
+                await resolveTeamVote(false);
+            }
+        }, error => console.error('Oylar okunamadı:', error));
+    }
+
+    window.advanceTeamRound = async function() {
+        if (!window.isRoomHost || !roomData) return;
+        try {
+            const nextStage = gameState.asama + 1;
+            await updateDoc(roomRef(), { stage: nextStage, teamResult: null });
+        } catch (error) {
+            console.error(error);
+            alert('Sonraki tura geçilemedi: ' + (error.code || error.message));
+        }
+    };
+</script>
+
+</body>
+</html>
